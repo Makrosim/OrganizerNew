@@ -1,0 +1,28 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:OrganizerRefactored.Localizations" 
+                    xmlns:v="clr-namespace:System;assembly=mscorlib">
+
+    <v:String x:Key="gb_Header">Редактировать теги</v:String>
+
+    <v:String x:Key="tb_Name">Имя файла</v:String>
+    <v:String x:Key="tb_Performers">Исполнители</v:String>
+    <v:String x:Key="tb_Title">Имя трека</v:String>
+    <v:String x:Key="tb_Album">Альбом</v:String>
+    <v:String x:Key="tb_Genres">Жанр</v:String>
+    <v:String x:Key="tb_Year">Год</v:String>
+    <v:String x:Key="tb_MusicBrainzID">MusicBrainzID</v:String>
+
+    <v:String x:Key="btn_Previous">P</v:String>
+    <v:String x:Key="btn_Save">S</v:String>
+    <v:String x:Key="btn_Recognize">R</v:String>
+
+    <v:String x:Key="btn_Change">Сменить язык</v:String>
+
+    <v:String x:Key="btn_Play">Play</v:String>
+    <v:String x:Key="btn_Stop">Stop</v:String>
+    <v:String x:Key="btn_Pause">Pause</v:String>
+
+    <v:String x:Key="btn_OpenFiles">Открыть</v:String>
+    <v:String x:Key="btn_RemoveFiles">Исключить</v:String>   
+</ResourceDictionary>
