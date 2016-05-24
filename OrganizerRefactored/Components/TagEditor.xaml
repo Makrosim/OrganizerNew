@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:OrganizerRefactored"
       mc:Ignorable="d" 
-      d:DesignHeight="240" d:DesignWidth="325"
+      d:DesignHeight="260" d:DesignWidth="325"
       Title="TagEditor">
     <Page.Resources>
         <Style x:Key="Fields">
@@ -78,35 +78,39 @@
         <StackPanel Name="Fields" VerticalAlignment="Top" Orientation="Vertical">
             <StackPanel>
                 <TextBlock Text="{DynamicResource tb_Name}"/>
-                <TextBox Name ="tbx_Name" Text="{Binding Composition.FileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxMultiselect}" KeyDown="TagEdited"/>
+                <TextBox x:Name ="tbx_Name" Text="{Binding Composition.FileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxMultiselect}" KeyDown="TagManuallyEdited"/>
             </StackPanel>
             <StackPanel>
                 <TextBlock Text="{DynamicResource tb_Performers}"/>
-                <TextBox Name ="tbx_Performers" Text="{Binding Composition.Performers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" IsEnabled="{Binding ElementName=chb_Performers, Path=IsChecked}" KeyDown="TagEdited"/>
+                <TextBox Name ="tbx_Performers" Text="{Binding Composition.Performers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" IsEnabled="{Binding ElementName=chb_Performers, Path=IsChecked}" KeyDown="TagManuallyEdited"/>
                 <CheckBox Name="chb_Performers"/>
             </StackPanel>
             <StackPanel>
                 <TextBlock Text="{DynamicResource tb_Title}"/>
-                <TextBox Name ="tbx_Title" Text="{Binding Composition.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxMultiselect}" KeyDown="TagEdited"/>
+                <TextBox Name ="tbx_Title" Text="{Binding Composition.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxMultiselect}" KeyDown="TagManuallyEdited"/>
             </StackPanel>
             <StackPanel>
                 <TextBlock Text="{DynamicResource tb_Album}"/>
-                <TextBox Name ="tbx_Album" Text="{Binding Composition.Album, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" IsEnabled="{Binding ElementName=chb_Album, Path=IsChecked}" KeyDown="TagEdited"/>
+                <TextBox Name ="tbx_Album" Text="{Binding Composition.Album, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" IsEnabled="{Binding ElementName=chb_Album, Path=IsChecked}" KeyDown="TagManuallyEdited"/>
                 <CheckBox Name="chb_Album"/>
             </StackPanel>
             <StackPanel>
                 <TextBlock Text="{DynamicResource tb_Genres}"/>
-                <TextBox Name ="tbx_Genres" Text="{Binding Composition.Genres, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}"  IsEnabled="{Binding ElementName=chb_Genres, Path=IsChecked}" KeyDown="TagEdited"/>
+                <TextBox Name ="tbx_Genres" Text="{Binding Composition.Genres, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}"  IsEnabled="{Binding ElementName=chb_Genres, Path=IsChecked}" KeyDown="TagManuallyEdited"/>
                 <CheckBox Name="chb_Genres"/>
             </StackPanel>
             <StackPanel>
                 <TextBlock Text="{DynamicResource tb_Year}"/>
-                <TextBox Name ="tbx_Year" Text="{Binding Composition.Year, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}"  IsEnabled="{Binding ElementName=chb_Year, Path=IsChecked}" KeyDown="TagEdited"/>
+                <TextBox Name ="tbx_Year" Text="{Binding Composition.TagType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}"  IsEnabled="{Binding ElementName=chb_Year, Path=IsChecked}" KeyDown="TagManuallyEdited"/>
                 <CheckBox Name="chb_Year"/>
             </StackPanel>
             <StackPanel>
                 <TextBlock Text="{DynamicResource tb_MusicBrainzID}"/>
-                <TextBox Name ="tbx_ID" Text="{Binding Composition.MusicBrainzID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Style="{StaticResource TextBox}" KeyDown="TagEdited"/>
+                <TextBox Name ="tbx_ID" Text="{Binding Composition.MusicBrainzID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Style="{StaticResource TextBox}" KeyDown="TagManuallyEdited"/>
+            </StackPanel>
+            <StackPanel>
+                <Button Name="btn_ToUTF8" Height="20" Content="ToUTF16" Command="{Binding cmd_ToUTF16}"/>
+                <Button Name="btn_TagToTheName" Height="20" Content="Tag to the name" Command="{Binding cmd_TagToTheName}"/>
             </StackPanel>
         </StackPanel>
     </GroupBox>

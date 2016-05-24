@@ -104,7 +104,7 @@ namespace OrganizerRefactored
             var pattern = new Regex(@"mp3$");
             foreach (string path in opened)
             {
-                if (pattern.IsMatch(path))
+                if (pattern.IsMatch(path) && (File.Exists(path)))
                 {
                     try
                     {

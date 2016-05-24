@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TagLib;
+using System.IO;
+using System.ComponentModel;
 
 namespace OrganizerRefactored
 {
-    public class Composition
+    public class Composition : INotifyPropertyChanged, ICloneable
     {
         public UInt32 Number { get; set; }
         public string Path { get; set; }
@@ -20,6 +22,9 @@ namespace OrganizerRefactored
         public string MusicBrainzID { get; set; }
         public string Bitrate { get; set; }
         public string Duration { get; set; }
+        public string TagType { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public Composition()
         {
@@ -39,6 +44,12 @@ namespace OrganizerRefactored
             Year = Audiofile.Tag.Year.ToString();
             Bitrate = Audiofile.Properties.AudioBitrate.ToString() + "kbps  " + Convert.ToString(Audiofile.Length / 1048576);
             Duration = Audiofile.Properties.Duration.ToString("mm\\:ss");
+            TagType = Audiofile.Tag.TagTypes.ToString();
+        }
+
+        protected void OnPropertyChanged(string property)
+        {
+            PropertyChanged(this, new PropertyChangedEventArgs(property));
         }
 
         public void SaveChanges()
@@ -51,10 +62,29 @@ namespace OrganizerRefactored
             Audiofile.Tag.Year = Convert.ToUInt32(Year);
             Audiofile.Tag.MusicBrainzTrackId = MusicBrainzID;
             Audiofile.Save();
-            Title = String.Join(", ", Audiofile.Tag.Performers) + " - " + Audiofile.Tag.Title;
+            Lb_Title = String.Join(", ", Audiofile.Tag.Performers) + " - " + Audiofile.Tag.Title;
+            OnPropertyChanged("Lb_Title");
         }
 
-        public Composition Clone(Composition copy)
+        public object Clone()
+        {
+            Composition clone = new Composition();
+            clone.Number = this.Number;
+            clone.Path = this.Path;
+            clone.FileName = this.FileName;
+            clone.Performers = this.Performers;
+            clone.Title = this.Title;
+            clone.Lb_Title = this.Lb_Title;
+            clone.Album = this.Album;
+            clone.Genres = this.Genres;
+            clone.Year = this.Year;
+            clone.MusicBrainzID = this.MusicBrainzID;
+            clone.Bitrate = this.Bitrate;
+            clone.Duration = this.Duration;
+            return clone;
+        }
+
+        public Composition Copy(Composition copy)
         {
             copy.Number = this.Number;
             copy.Path = this.Path;
@@ -69,6 +99,14 @@ namespace OrganizerRefactored
             copy.Bitrate = this.Bitrate;
             copy.Duration = this.Duration;
             return copy;
+        }
+
+        public void TagToTheName()
+        {
+            var ext = Path.Substring(Path.LastIndexOf("."));
+            System.IO.File.Move(Path, Path.Substring(0, Path.LastIndexOf(@"\") + 1) + Lb_Title + ext);
+            FileName = Path.Substring(Path.LastIndexOf(@"\") + 1);
+            OnPropertyChanged("Lb_Title");
         }
     }
 }

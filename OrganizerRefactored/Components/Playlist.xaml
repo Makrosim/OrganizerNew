@@ -24,7 +24,7 @@
                                 <ColumnDefinition Width="10*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.RowSpan="2" HorizontalAlignment="Right" Margin="3" FontWeight="Bold" Text="{Binding Number}" FontSize="13.333"/>
-                            <TextBlock Grid.Column="1" FontWeight="Bold" Text="{Binding Lb_Title}"/>
+                            <TextBlock Grid.Column="1" FontWeight="Bold" Text="{Binding Lb_Title, UpdateSourceTrigger=PropertyChanged}"/>
                             <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Bitrate}" FontSize="9.333"/>
                             <TextBlock Grid.Column="2" Text="{Binding Duration}"/>
                         </Grid>

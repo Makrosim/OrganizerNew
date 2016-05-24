@@ -15,9 +15,6 @@ using System.Windows.Shapes;
 
 namespace OrganizerRefactored
 {
-    /// <summary>
-    /// Логика взаимодействия для CompList.xaml
-    /// </summary>
     public partial class Playlist : Page, IPlaylist
     {
         public ObservableCollection<Composition> CompositionList { get; set; }
@@ -108,7 +105,7 @@ namespace OrganizerRefactored
             }
         }
 
-        public bool IsMultiplySelection() //Не нужен???
+        private bool IsMultiplySelection()
         {
             if (lb_List.SelectedItems.Count > 1)
                 return true;

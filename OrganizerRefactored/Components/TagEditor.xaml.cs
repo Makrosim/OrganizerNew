@@ -16,13 +16,12 @@ using Fingerprinter;
 
 namespace OrganizerRefactored
 {
-    /// <summary>
-    /// Логика взаимодействия для TagEditor.xaml
-    /// </summary>
     public partial class TagEditor : Page, INotifyPropertyChanged
     {
         public ActionCommand cmd_Save { get; set; }
         public ActionCommand cmd_Recognize { get; set; }
+        public ActionCommand cmd_ToUTF16 { get; set; }
+        public ActionCommand cmd_TagToTheName { get; set; }
         public Composition OldComposition { get; set; }
         public Composition Composition { get; set; }
         public bool IsMultiselect { get; set; }
@@ -39,6 +38,8 @@ namespace OrganizerRefactored
             DataContext = this;
             cmd_Save = new ActionCommand(SaveTags) { IsExecutable = true };
             cmd_Recognize = new ActionCommand(RecognizeComposition) { IsExecutable = true };
+            cmd_ToUTF16 = new ActionCommand(ToUTF16) { IsExecutable = true };
+            cmd_TagToTheName = new ActionCommand(TagToTheName) { IsExecutable = true };
             ICompList = complist;
             ICompList.SelectionChangedEvent += SelectionChanged;
         }
@@ -63,7 +64,6 @@ namespace OrganizerRefactored
             Saved = true;
             OnPropertyChanged("Composition");
             OnPropertyChanged("IsMultiselect");
-
         }
 
         public void SaveTags()
@@ -104,38 +104,39 @@ namespace OrganizerRefactored
                 tbx_ID.Text = tags[2];
             }
         }
+         
+        private void TagManuallyEdited(object sender, KeyEventArgs e)
+        {
+            TagEdited();
+        }
+
+        private void TagEdited()
+        {
+            if (Saved)
+            {
+                OldComposition = (Composition)Composition.Clone();
+                Saved = false;
+            }
+        }
 
         private void btn_Previous_MouseEnter(object sender, MouseEventArgs e)
         {
-            if (!Saved)
-            {
-                var tmp = new Composition();
-                tmp = Composition.Clone(tmp); // tmp = редактир аудиозапись
-                Composition = OldComposition.Clone(Composition); // текущая = нередактир
-                OldComposition = tmp.Clone(OldComposition); // старая = редактир
-                OnPropertyChanged("Composition");
-            }
+                Switch();
         }
 
         private void btn_Previous_MouseLeave(object sender, MouseEventArgs e)
         {
-            if(!Saved)
-            { 
-                var tmp = new Composition();
-                tmp = Composition.Clone(tmp);
-                Composition = OldComposition.Clone(Composition);
-                OldComposition = tmp.Clone(OldComposition);
-                OnPropertyChanged("Composition");
-            }
+                Switch();
         }
-
-        private void TagEdited(object sender, KeyEventArgs e)
+        
+        private void Switch()
         {
-            if (Saved)
+            if (!Saved)
             {
-                OldComposition = new Composition();
-                OldComposition = Composition.Clone(OldComposition);
-                Saved = false;
+                var tmp = (Composition)Composition.Clone();
+                Composition = OldComposition.Copy(Composition);
+                OldComposition = tmp.Copy(OldComposition);
+                OnPropertyChanged("Composition");
             }
         }
 
@@ -143,6 +144,61 @@ namespace OrganizerRefactored
         {
             OldComposition = null;
             Saved = true;
+        }
+
+        private void ToUTF16()
+        {
+            TagEdited();
+            if (!IsMultiselect)
+            {
+                ToUTF16(Composition);
+            }
+            else
+            {
+                foreach (Composition comp in CompList)
+                {
+                    ToUTF16(comp);
+                }
+            }
+        }
+
+        public void ToUTF16(Composition comp)
+        {
+            comp.Performers = StringToUTF16(comp.Performers);
+            comp.Title = StringToUTF16(comp.Title);
+            comp.Lb_Title = StringToUTF16(comp.Lb_Title);
+            comp.Album = StringToUTF16(comp.Album);
+            OnPropertyChanged("Composition");
+        }
+
+        private string StringToUTF16(string str)
+        {
+            var win1251 = Encoding.GetEncoding(1251);
+            var utf16 = Encoding.GetEncoding(1200);
+
+            var oldbyte = utf16.GetBytes(str);
+            var newbyte = new byte[oldbyte.Length / 2];
+            for (int i = 0, j = 0; i < oldbyte.Length; i = i + 2, j++)
+            {
+                newbyte[j] = oldbyte[i];
+            }
+            return str = win1251.GetString(newbyte);
+        }
+
+        private void TagToTheName()
+        {
+            if (!IsMultiselect)
+            {
+                Composition.TagToTheName();
+            }
+            else
+            {
+                foreach (Composition comp in CompList)
+                {
+                    comp.TagToTheName();
+                }
+            }
+            OnPropertyChanged("Composition");
         }
     }
 }
