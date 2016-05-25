@@ -105,8 +105,10 @@ namespace OrganizerRefactored
         {
             var ext = Path.Substring(Path.LastIndexOf("."));
             System.IO.File.Move(Path, Path.Substring(0, Path.LastIndexOf(@"\") + 1) + Lb_Title + ext);
+            Path = Path.Substring(0, Path.LastIndexOf(@"\") + 1) + Lb_Title + ext;
+            OnPropertyChanged("Path");
             FileName = Path.Substring(Path.LastIndexOf(@"\") + 1);
-            OnPropertyChanged("Lb_Title");
+            OnPropertyChanged("FileName");
         }
     }
 }
