@@ -64,7 +64,7 @@ namespace OrganizerRefactored
 
         public ObservableCollection<Composition> OpenFolder(ObservableCollection<Composition> playlist)
         {
-            var files = new List<string>();
+            var opened = new List<string>();
             string folderName;
             var fbd = new FolderBrowserDialog();
             DialogResult result = fbd.ShowDialog();
@@ -73,8 +73,8 @@ namespace OrganizerRefactored
 
             }
             folderName = fbd.SelectedPath;
-            GetFilesFromDirectory(folderName, ref files);
-            FillCollection(playlist, files);
+            GetFilesFromDirectory(folderName, ref opened);
+            FillCollection(playlist, opened);
             return playlist;
         }
 
@@ -89,7 +89,7 @@ namespace OrganizerRefactored
 
         private void FillCollection(ObservableCollection<Composition> playlist, List<string> opened)
         {
-            foreach (Composition comp in playlist) //Объединить?
+            foreach (Composition comp in playlist)
             {
                 foreach (string _path in opened)
                 {
@@ -101,7 +101,7 @@ namespace OrganizerRefactored
                 }
             }
 
-            var pattern = new Regex(@"mp3$");
+            var pattern = new Regex(@"mp3$"); //Добавить форматы
             foreach (string path in opened)
             {
                 if (pattern.IsMatch(path) && (File.Exists(path)))
@@ -119,5 +119,6 @@ namespace OrganizerRefactored
                 }
             }
         }
+
     }
 }

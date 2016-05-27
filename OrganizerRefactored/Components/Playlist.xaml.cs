@@ -79,7 +79,7 @@ namespace OrganizerRefactored
         public void RefreshCollection()
         {
             foreach (Composition _comp in CompositionList)
-                _comp.Number = (UInt32)CompositionList.IndexOf(_comp);
+                _comp.Number = (UInt32)CompositionList.IndexOf(_comp) + 1;
             lb_List.Items.Refresh();
         }
 
@@ -92,7 +92,7 @@ namespace OrganizerRefactored
         public List<Composition> GetSelectedComposition()
         {
             List<Composition> selected = new List<Composition>();
-            if (IsMultiplySelection())
+            if (lb_List.SelectedItems.Count > 1)
             {
                 foreach (Composition comp in lb_List.SelectedItems)
                     selected.Add(comp);
@@ -105,12 +105,5 @@ namespace OrganizerRefactored
             }
         }
 
-        private bool IsMultiplySelection()
-        {
-            if (lb_List.SelectedItems.Count > 1)
-                return true;
-            else
-                return false;
-        }
     }
 }
