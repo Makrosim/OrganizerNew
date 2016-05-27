@@ -110,5 +110,31 @@ namespace OrganizerRefactored
             FileName = Path.Substring(Path.LastIndexOf(@"\") + 1);
             OnPropertyChanged("FileName");
         }
+
+        public void ToUTF16()
+        {
+            Performers = StringToUTF16(Performers);
+            OnPropertyChanged("Performers");
+            Title = StringToUTF16(Title);
+            OnPropertyChanged("Title");
+            Lb_Title = StringToUTF16(Lb_Title);
+            OnPropertyChanged("Lb_Title");
+            Album = StringToUTF16(Album);
+            OnPropertyChanged("Album");
+        }
+
+        private string StringToUTF16(string str)
+        {
+            var win1251 = Encoding.GetEncoding(1251);
+            var utf16 = Encoding.GetEncoding(1200);
+
+            var oldbyte = utf16.GetBytes(str);
+            var newbyte = new byte[oldbyte.Length / 2];
+            for (int i = 0, j = 0; i < oldbyte.Length; i = i + 2, j++)
+            {
+                newbyte[j] = oldbyte[i];
+            }
+            return str = win1251.GetString(newbyte);
+        }
     }
 }

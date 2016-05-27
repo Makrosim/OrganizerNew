@@ -24,5 +24,6 @@
     <v:String x:Key="btn_Pause">Pause</v:String>
 
     <v:String x:Key="btn_OpenFiles">Открыть</v:String>
+    <v:String x:Key="btn_OpenFolder">Открыть Папку</v:String>
     <v:String x:Key="btn_RemoveFiles">Исключить</v:String>   
 </ResourceDictionary>

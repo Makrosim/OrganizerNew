@@ -24,7 +24,7 @@
     <v:String x:Key="btn_Pause">Pause</v:String>
 
     <v:String x:Key="btn_OpenFiles">Open</v:String>
-    <v:String x:Key="btn_OpenFolder">OpenFolder</v:String>
+    <v:String x:Key="btn_OpenFolder">Open Folder</v:String>
     <v:String x:Key="btn_RemoveFiles">Remove</v:String>
 
 </ResourceDictionary>

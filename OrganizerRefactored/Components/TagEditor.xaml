@@ -70,7 +70,7 @@
                         <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Height, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </Style>
                 </StackPanel.Resources>
-                <Button Name="btn_Previous" Content="{DynamicResource btn_Previous}" Command="{Binding cmd_Save}" MouseEnter="btn_Previous_MouseEnter" MouseLeave="btn_Previous_MouseLeave" Click="btn_Previous_Click"/>
+                <Button Name="btn_Previous" Content="{DynamicResource btn_Previous}" Command="{Binding cmd_Save}" MouseEnter="Switch" MouseLeave="Switch" Click="btn_Previous_Click"/>
                 <Button Name="btn_Save" Content="{DynamicResource btn_Save}" Command="{Binding cmd_Save}"/>
                 <Button Name="btn_Recognize" Content="{DynamicResource btn_Recognize}" Command="{Binding cmd_Recognize}"/>
             </StackPanel>

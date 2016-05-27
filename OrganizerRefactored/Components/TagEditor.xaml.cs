@@ -118,18 +118,8 @@ namespace OrganizerRefactored
                 Saved = false;
             }
         }
-
-        private void btn_Previous_MouseEnter(object sender, MouseEventArgs e)
-        {
-                Switch();
-        }
-
-        private void btn_Previous_MouseLeave(object sender, MouseEventArgs e)
-        {
-                Switch();
-        }
         
-        private void Switch()
+        private void Switch(object sender, MouseEventArgs e)
         {
             if (!Saved)
             {
@@ -151,38 +141,15 @@ namespace OrganizerRefactored
             TagEdited();
             if (!IsMultiselect)
             {
-                ToUTF16(Composition);
+                Composition.ToUTF16();
             }
             else
             {
                 foreach (Composition comp in CompList)
                 {
-                    ToUTF16(comp);
+                    comp.ToUTF16();
                 }
             }
-        }
-
-        public void ToUTF16(Composition comp)
-        {
-            comp.Performers = StringToUTF16(comp.Performers);
-            comp.Title = StringToUTF16(comp.Title);
-            comp.Lb_Title = StringToUTF16(comp.Lb_Title);
-            comp.Album = StringToUTF16(comp.Album);
-            OnPropertyChanged("Composition");
-        }
-
-        private string StringToUTF16(string str)
-        {
-            var win1251 = Encoding.GetEncoding(1251);
-            var utf16 = Encoding.GetEncoding(1200);
-
-            var oldbyte = utf16.GetBytes(str);
-            var newbyte = new byte[oldbyte.Length / 2];
-            for (int i = 0, j = 0; i < oldbyte.Length; i = i + 2, j++)
-            {
-                newbyte[j] = oldbyte[i];
-            }
-            return str = win1251.GetString(newbyte);
         }
 
         private void TagToTheName()

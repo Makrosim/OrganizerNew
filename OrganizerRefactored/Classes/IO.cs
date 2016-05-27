@@ -58,18 +58,6 @@ namespace OrganizerRefactored
                 opened = openFileDialog.FileNames.ToList();
             }
 
-            foreach (Composition comp in playlist)
-            {
-                foreach (string _path in opened)
-                {
-                    if (comp.Path.Equals(_path))
-                    {
-                        opened.Remove(_path);
-                        break;
-                    }
-                }
-            }
-
             FillCollection(playlist, opened);
             return playlist;
         }
@@ -101,6 +89,18 @@ namespace OrganizerRefactored
 
         private void FillCollection(ObservableCollection<Composition> playlist, List<string> opened)
         {
+            foreach (Composition comp in playlist) //Объединить?
+            {
+                foreach (string _path in opened)
+                {
+                    if (comp.Path.Equals(_path))
+                    {
+                        opened.Remove(_path);
+                        break;
+                    }
+                }
+            }
+
             var pattern = new Regex(@"mp3$");
             foreach (string path in opened)
             {

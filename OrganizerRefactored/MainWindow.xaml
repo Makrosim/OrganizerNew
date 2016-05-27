@@ -5,17 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OrganizerRefactored"
         mc:Ignorable="d"
-        Title="Organizer" Height="600" Width="755" Loaded="Window_Loaded" Closed="Window_Closed">
+        Title="Organizer" Height="620" Width="755" Loaded="Window_Loaded" Closed="Window_Closed">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="325"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Frame Name="fr_TagEdiror" NavigationUIVisibility="Hidden"/>
+        <Frame Name="fr_TagEdiror" NavigationUIVisibility="Hidden" />
         <StackPanel Grid.Column="1" Orientation="Vertical">
             <Frame Name="fr_Player" NavigationUIVisibility="Hidden"/>
             <Frame Name="fr_CompList" NavigationUIVisibility="Hidden"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal">
+            <Button Name="btn_Change" Content="{DynamicResource btn_Change}" Command="{Binding cmd_Change}"/>
         </StackPanel>
 
     </Grid>
