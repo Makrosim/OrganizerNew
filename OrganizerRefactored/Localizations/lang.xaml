@@ -13,11 +13,9 @@
     <v:String x:Key="tb_Year">Year</v:String>
     <v:String x:Key="tb_MusicBrainzID">MusicBrainzID</v:String>
 
-    <v:String x:Key="btn_Previous">P</v:String>
-    <v:String x:Key="btn_Save">S</v:String>
-    <v:String x:Key="btn_Recognize">R</v:String>
-
     <v:String x:Key="btn_Change">Change Language</v:String>
+    <v:String x:Key="btn_EditVK">Edit VK Playlist</v:String>
+    <v:String x:Key="btn_EditLocal">Edit Local Collection</v:String>
 
     <v:String x:Key="btn_Play">Play</v:String>
     <v:String x:Key="btn_Stop">Stop</v:String>
@@ -26,5 +24,7 @@
     <v:String x:Key="btn_OpenFiles">Open</v:String>
     <v:String x:Key="btn_OpenFolder">Open Folder</v:String>
     <v:String x:Key="btn_RemoveFiles">Remove</v:String>
+
+    <v:String x:Key="btn_Download">Download</v:String>
 
 </ResourceDictionary>

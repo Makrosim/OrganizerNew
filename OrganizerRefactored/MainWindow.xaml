@@ -19,11 +19,13 @@
         <Frame Name="fr_TagEdiror" NavigationUIVisibility="Hidden" />
         <StackPanel Grid.Column="1" Orientation="Vertical">
             <Frame Name="fr_Player" NavigationUIVisibility="Hidden"/>
-            <Frame Name="fr_CompList" NavigationUIVisibility="Hidden"/>
+            <Frame Name="fr_Playlist" NavigationUIVisibility="Hidden"/>
         </StackPanel>
 
         <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal">
             <Button Name="btn_Change" Content="{DynamicResource btn_Change}" Command="{Binding cmd_Change}"/>
+            <Button Name="btn_EditVK" Content="{DynamicResource btn_EditVK}" Command="{Binding cmd_EditVK}"/>
+            <Button Name="btn_EditLocal" Content="{DynamicResource btn_EditLocal}" Command="{Binding cmd_EditLocal}"/>
         </StackPanel>
 
     </Grid>

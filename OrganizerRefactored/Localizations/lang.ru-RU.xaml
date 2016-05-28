@@ -13,11 +13,9 @@
     <v:String x:Key="tb_Year">Год</v:String>
     <v:String x:Key="tb_MusicBrainzID">MusicBrainzID</v:String>
 
-    <v:String x:Key="btn_Previous">P</v:String>
-    <v:String x:Key="btn_Save">S</v:String>
-    <v:String x:Key="btn_Recognize">R</v:String>
-
     <v:String x:Key="btn_Change">Сменить язык</v:String>
+    <v:String x:Key="btn_EditVK">Редактировать плейлист ВК</v:String>
+    <v:String x:Key="btn_EditLocal">Редактировать локальный плейлист</v:String>
 
     <v:String x:Key="btn_Play">Play</v:String>
     <v:String x:Key="btn_Stop">Stop</v:String>
@@ -25,5 +23,8 @@
 
     <v:String x:Key="btn_OpenFiles">Открыть</v:String>
     <v:String x:Key="btn_OpenFolder">Открыть Папку</v:String>
-    <v:String x:Key="btn_RemoveFiles">Исключить</v:String>   
+    <v:String x:Key="btn_RemoveFiles">Исключить</v:String>
+
+    <v:String x:Key="btn_Download">Загрузить</v:String>
+    
 </ResourceDictionary>

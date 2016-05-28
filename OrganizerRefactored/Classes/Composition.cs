@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using TagLib;
 using System.IO;
 using System.ComponentModel;
 
@@ -26,44 +25,9 @@ namespace OrganizerRefactored
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Composition()
-        {
-
-        }
-
-        public Composition(string path)
-        {
-            var Audiofile = TagLib.File.Create(path);
-            Path = path;
-            FileName = Audiofile.Name.Substring(Audiofile.Name.LastIndexOf(@"\") + 1);
-            Performers = String.Join(", ", Audiofile.Tag.Performers);
-            Title = Audiofile.Tag.Title;
-            Lb_Title = String.Join(", ", Audiofile.Tag.Performers) + " - " + Audiofile.Tag.Title;
-            Album = Audiofile.Tag.Album;
-            Genres = String.Join(", ", Audiofile.Tag.Genres);
-            Year = Audiofile.Tag.Year.ToString();
-            Bitrate = Audiofile.Properties.AudioBitrate.ToString() + "kbps  " + Convert.ToString(Audiofile.Length / 1048576);
-            Duration = Audiofile.Properties.Duration.ToString("mm\\:ss");
-            TagType = Audiofile.Tag.TagTypes.ToString();
-        }
-
-        protected void OnPropertyChanged(string property)
+        public void OnPropertyChanged(string property)
         {
             PropertyChanged(this, new PropertyChangedEventArgs(property));
-        }
-
-        public void SaveChanges()
-        {
-            var Audiofile = TagLib.File.Create(Path);
-            Audiofile.Tag.Performers = Performers.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
-            Audiofile.Tag.Title = Title;
-            Audiofile.Tag.Album = Album;
-            Audiofile.Tag.Genres = Genres.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
-            Audiofile.Tag.Year = Convert.ToUInt32(Year);
-            Audiofile.Tag.MusicBrainzTrackId = MusicBrainzID;
-            Audiofile.Save();
-            Lb_Title = String.Join(", ", Audiofile.Tag.Performers) + " - " + Audiofile.Tag.Title;
-            OnPropertyChanged("Lb_Title");
         }
 
         public object Clone()

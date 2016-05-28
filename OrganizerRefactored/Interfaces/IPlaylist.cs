@@ -10,5 +10,6 @@ namespace OrganizerRefactored
         event EventHandler SelectionChangedEvent;
         List<Composition> GetSelectedComposition();
         void RefreshCollection();
+        void SaveComposition(Composition comp);
     }
 }

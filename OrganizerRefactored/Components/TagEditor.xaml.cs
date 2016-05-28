@@ -80,12 +80,12 @@ namespace OrganizerRefactored
                         comp.Genres = Composition.Genres;
                     if (chb_Year.IsChecked == true)
                         comp.Year = Composition.Year;
-                    comp.SaveChanges(); // копировать
+                    ICompList.SaveComposition(comp); // копировать
                 }
             }
             else
             {
-                Composition.SaveChanges();
+                ICompList.SaveComposition(Composition);
             }
             ICompList.RefreshCollection();
         }

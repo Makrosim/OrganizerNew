@@ -74,6 +74,7 @@
     </ApplicationDefinition>
     <Compile Include="Classes\ActionCommand.cs" />
     <Compile Include="Classes\Composition.cs" />
+    <Compile Include="Classes\IOVK.cs" />
     <Compile Include="Interfaces\IMainWindow.cs" />
     <Compile Include="Interfaces\IPlaylist.cs" />
     <Compile Include="Interfaces\IIO.cs" />

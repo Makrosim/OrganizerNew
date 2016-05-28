@@ -70,9 +70,9 @@
                         <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Height, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </Style>
                 </StackPanel.Resources>
-                <Button Name="btn_Previous" Content="{DynamicResource btn_Previous}" Command="{Binding cmd_Save}" MouseEnter="Switch" MouseLeave="Switch" Click="btn_Previous_Click"/>
-                <Button Name="btn_Save" Content="{DynamicResource btn_Save}" Command="{Binding cmd_Save}"/>
-                <Button Name="btn_Recognize" Content="{DynamicResource btn_Recognize}" Command="{Binding cmd_Recognize}"/>
+                <Button Name="btn_Previous" Content="P" Command="{Binding cmd_Save}" MouseEnter="Switch" MouseLeave="Switch" Click="btn_Previous_Click"/>
+                <Button Name="btn_Save" Content="S" Command="{Binding cmd_Save}"/>
+                <Button Name="btn_Recognize" Content="R" Command="{Binding cmd_Recognize}"/>
             </StackPanel>
         </GroupBox.Header>
         <StackPanel Name="Fields" VerticalAlignment="Top" Orientation="Vertical">

@@ -85,8 +85,7 @@ namespace OrganizerRefactored
 
         private void SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (SelectionChangedEvent != null)
-                SelectionChangedEvent(this, e);
+            SelectionChangedEvent?.Invoke(this, e);
         }
 
         public List<Composition> GetSelectedComposition()
@@ -103,6 +102,19 @@ namespace OrganizerRefactored
                 selected.Add(lb_List.SelectedItem as Composition);
                 return selected;
             }
+        }
+
+        public void SwitchToVK(IIO IoVK)
+        {
+            IIO.WritePlaylist(CompositionList);
+            CompositionList.Clear();
+            IIO = IoVK;
+            CompositionList = IIO.ReadPlaylist(CompositionList);
+        }
+
+        public void SaveComposition(Composition comp)
+        {
+            IIO.SaveComposition(comp);
         }
 
     }

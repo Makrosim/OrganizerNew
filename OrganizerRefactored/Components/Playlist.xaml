@@ -9,7 +9,7 @@
       Title="Playlist">
 
     <StackPanel Orientation="Vertical">
-        <ListBox Name="lb_List" Height="450" ItemsSource="{Binding CompositionList}" SelectionMode="Extended" BorderThickness="0" SelectionChanged="SelectionChanged">
+        <ListBox Name="lb_List" Height="470" ItemsSource="{Binding CompositionList}" SelectionMode="Extended" BorderThickness="0" SelectionChanged="SelectionChanged">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Border BorderThickness="1" BorderBrush="SteelBlue" CornerRadius="4" Width="370">

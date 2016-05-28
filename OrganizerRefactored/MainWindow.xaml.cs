@@ -17,9 +17,21 @@ namespace OrganizerRefactored
 {
     public partial class MainWindow : Window, IMainWindow
     {
+        int appId = 5482105;
+        string login = "+380952591396";
+        string password = "123456qAz32q";
+
         public event EventHandler WindowLoaded;
         public event EventHandler WindowClosed;
         public ActionCommand cmd_Change { get; set; }
+        public ActionCommand cmd_EditVK { get; set; }
+        public ActionCommand cmd_EditLocal { get; set; }
+        Player player;
+        TagEditor editor;
+        IPlaylist Iplaylist;
+        IIO IoVK;
+        IPlaylist IPlaylistVK;
+        IIO IIoVK;
 
         public MainWindow()
         {
@@ -27,14 +39,17 @@ namespace OrganizerRefactored
             DataContext = this;
             App.LanguageChanged += LanguageChanged;
             IIO Iio = new IO();
-            IPlaylist Iplaylist = new Playlist(Iio, this);
-            Player player = new Player(Iplaylist);
-            TagEditor editor = new TagEditor(Iplaylist);
+
+            Iplaylist = new Playlist(Iio, this);
+            player = new Player(Iplaylist);
+            editor = new TagEditor(Iplaylist);
             cmd_Change = new ActionCommand(ChangeLanguage) { IsExecutable = true };
+            cmd_EditVK = new ActionCommand(EditVK) { IsExecutable = true };
+            cmd_EditLocal = new ActionCommand(EditLocal) { IsExecutable = true };
 
             fr_TagEdiror.NavigationService.Navigate(editor);
             fr_Player.NavigationService.Navigate(player);
-            fr_CompList.NavigationService.Navigate(Iplaylist);
+            fr_Playlist.NavigationService.Navigate(Iplaylist);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -63,5 +78,17 @@ namespace OrganizerRefactored
                 App.Language = new CultureInfo("ru-RU");
             }
         }
+
+        private void EditVK()
+        {
+            IIoVK = new IOVK(appId, login, password);
+
+        }
+
+        private void EditLocal()
+        {
+            fr_Playlist.NavigationService.Navigate(Iplaylist);
+        }
+
     }
 }

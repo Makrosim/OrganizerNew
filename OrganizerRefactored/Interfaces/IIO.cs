@@ -10,7 +10,8 @@ namespace OrganizerRefactored
     {
         ObservableCollection<Composition> OpenFiles(ObservableCollection<Composition> playlist);
         ObservableCollection<Composition> OpenFolder(ObservableCollection<Composition> playlist);
-        void WritePlaylist(ObservableCollection<Composition> playlist);
         ObservableCollection<Composition> ReadPlaylist(ObservableCollection<Composition> playlist);
+        void WritePlaylist(ObservableCollection<Composition> playlist);
+        void SaveComposition(Composition comp);
     }
 }
