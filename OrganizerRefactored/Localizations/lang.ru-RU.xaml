@@ -9,7 +9,7 @@
     <v:String x:Key="tb_Performers">Исполнители</v:String>
     <v:String x:Key="tb_Title">Имя трека</v:String>
     <v:String x:Key="tb_Album">Альбом</v:String>
-    <v:String x:Key="tb_Genres">Жанр</v:String>
+    <v:String x:Key="tb_Genre">Жанр</v:String>
     <v:String x:Key="tb_Year">Год</v:String>
     <v:String x:Key="tb_MusicBrainzID">MusicBrainzID</v:String>
 

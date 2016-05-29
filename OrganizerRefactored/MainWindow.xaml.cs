@@ -17,7 +17,7 @@ namespace OrganizerRefactored
 {
     public partial class MainWindow : Window, IMainWindow
     {
-        int appId = 5482105;
+        ulong appId = 5482105;
         string login = "+380952591396";
         string password = "123456qAz32q";
 
@@ -29,16 +29,14 @@ namespace OrganizerRefactored
         Player player;
         TagEditor editor;
         IPlaylist Iplaylist;
-        IIO IoVK;
-        IPlaylist IPlaylistVK;
-        IIO IIoVK;
+        IIO Iio;
 
         public MainWindow()
         {
             InitializeComponent();
             DataContext = this;
             App.LanguageChanged += LanguageChanged;
-            IIO Iio = new IO();
+            Iio = new IO();
 
             Iplaylist = new Playlist(Iio, this);
             player = new Player(Iplaylist);
@@ -81,13 +79,12 @@ namespace OrganizerRefactored
 
         private void EditVK()
         {
-            IIoVK = new IOVK(appId, login, password);
-
+            Iplaylist.SwitchToVK(new IOVK(appId, login, password));
         }
 
         private void EditLocal()
         {
-            fr_Playlist.NavigationService.Navigate(Iplaylist);
+            Iplaylist.SwitchToLocal(Iio);
         }
 
     }

@@ -115,11 +115,11 @@ namespace OrganizerRefactored
                         comp.FileName = Audiofile.Name.Substring(Audiofile.Name.LastIndexOf(@"\") + 1);
                         comp.Performers = String.Join(", ", Audiofile.Tag.Performers);
                         comp.Title = Audiofile.Tag.Title;
-                        comp.Lb_Title = String.Join(", ", Audiofile.Tag.Performers) + " - " + Audiofile.Tag.Title;
+                        comp.UpperLine = String.Join(", ", Audiofile.Tag.Performers) + " - " + Audiofile.Tag.Title;
                         comp.Album = Audiofile.Tag.Album;
-                        comp.Genres = String.Join(", ", Audiofile.Tag.Genres);
+                        comp.Genre = String.Join(", ", Audiofile.Tag.Genres);
                         comp.Year = Audiofile.Tag.Year.ToString();
-                        comp.Bitrate = Audiofile.Properties.AudioBitrate.ToString() + "kbps  " + Convert.ToString(Audiofile.Length / 1048576);
+                        comp.LowerLine = Audiofile.Properties.AudioBitrate.ToString() + "kbps  " + Convert.ToString(Audiofile.Length / 1048576);
                         comp.Duration = Audiofile.Properties.Duration.ToString("mm\\:ss");
                         comp.TagType = Audiofile.Tag.TagTypes.ToString();
                         playlist.Add(comp);
@@ -133,18 +133,19 @@ namespace OrganizerRefactored
             }
         }
 
-        public void SaveComposition(Composition comp)
+        public bool SaveComposition(Composition comp)
         {
             var Audiofile = TagLib.File.Create(comp.Path);
             Audiofile.Tag.Performers = comp.Performers.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
             Audiofile.Tag.Title = comp.Title;
             Audiofile.Tag.Album = comp.Album;
-            Audiofile.Tag.Genres = comp.Genres.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
+            Audiofile.Tag.Genres = comp.Genre.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
             Audiofile.Tag.Year = Convert.ToUInt32(comp.Year);
             Audiofile.Tag.MusicBrainzTrackId = comp.MusicBrainzID;
             Audiofile.Save();
-            comp.Lb_Title = String.Join(", ", Audiofile.Tag.Performers) + " - " + Audiofile.Tag.Title;
+            comp.UpperLine = String.Join(", ", Audiofile.Tag.Performers) + " - " + Audiofile.Tag.Title;
             comp.OnPropertyChanged("Lb_Title");
+            return true;
         }
 
     }

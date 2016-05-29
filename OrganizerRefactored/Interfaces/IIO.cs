@@ -12,6 +12,6 @@ namespace OrganizerRefactored
         ObservableCollection<Composition> OpenFolder(ObservableCollection<Composition> playlist);
         ObservableCollection<Composition> ReadPlaylist(ObservableCollection<Composition> playlist);
         void WritePlaylist(ObservableCollection<Composition> playlist);
-        void SaveComposition(Composition comp);
+        bool SaveComposition(Composition comp);
     }
 }

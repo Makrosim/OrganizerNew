@@ -13,15 +13,16 @@ namespace OrganizerRefactored
         public string Path { get; set; }
         public string FileName { get; set; }
         public string Performers { get; set; }
-        public string Title { get; set; }
-        public string Lb_Title { get; set; }
         public string Album { get; set; }
-        public string Genres { get; set; }
+        public string Genre { get; set; }
         public string Year { get; set; }
         public string MusicBrainzID { get; set; }
-        public string Bitrate { get; set; }
         public string Duration { get; set; }
         public string TagType { get; set; }
+
+        public string Title { get; set; }
+        public string UpperLine { get; set; }
+        public string LowerLine { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -38,12 +39,12 @@ namespace OrganizerRefactored
             clone.FileName = this.FileName;
             clone.Performers = this.Performers;
             clone.Title = this.Title;
-            clone.Lb_Title = this.Lb_Title;
+            clone.UpperLine = this.UpperLine;
             clone.Album = this.Album;
-            clone.Genres = this.Genres;
+            clone.Genre = this.Genre;
             clone.Year = this.Year;
             clone.MusicBrainzID = this.MusicBrainzID;
-            clone.Bitrate = this.Bitrate;
+            clone.LowerLine = this.LowerLine;
             clone.Duration = this.Duration;
             return clone;
         }
@@ -55,12 +56,12 @@ namespace OrganizerRefactored
             copy.FileName = this.FileName;
             copy.Performers = this.Performers;
             copy.Title = this.Title;
-            copy.Lb_Title = this.Lb_Title;
+            copy.UpperLine = this.UpperLine;
             copy.Album = this.Album;
-            copy.Genres = this.Genres;
+            copy.Genre = this.Genre;
             copy.Year = this.Year;
             copy.MusicBrainzID = this.MusicBrainzID;
-            copy.Bitrate = this.Bitrate;
+            copy.LowerLine = this.LowerLine;
             copy.Duration = this.Duration;
             return copy;
         }
@@ -68,8 +69,8 @@ namespace OrganizerRefactored
         public void TagToTheName()
         {
             var ext = Path.Substring(Path.LastIndexOf("."));
-            System.IO.File.Move(Path, Path.Substring(0, Path.LastIndexOf(@"\") + 1) + Lb_Title + ext);
-            Path = Path.Substring(0, Path.LastIndexOf(@"\") + 1) + Lb_Title + ext;
+            System.IO.File.Move(Path, Path.Substring(0, Path.LastIndexOf(@"\") + 1) + UpperLine + ext);
+            Path = Path.Substring(0, Path.LastIndexOf(@"\") + 1) + UpperLine + ext;
             OnPropertyChanged("Path");
             FileName = Path.Substring(Path.LastIndexOf(@"\") + 1);
             OnPropertyChanged("FileName");
@@ -81,7 +82,7 @@ namespace OrganizerRefactored
             OnPropertyChanged("Performers");
             Title = StringToUTF16(Title);
             OnPropertyChanged("Title");
-            Lb_Title = StringToUTF16(Lb_Title);
+            UpperLine = StringToUTF16(UpperLine);
             OnPropertyChanged("Lb_Title");
             Album = StringToUTF16(Album);
             OnPropertyChanged("Album");

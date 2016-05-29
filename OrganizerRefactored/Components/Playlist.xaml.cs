@@ -112,9 +112,16 @@ namespace OrganizerRefactored
             CompositionList = IIO.ReadPlaylist(CompositionList);
         }
 
-        public void SaveComposition(Composition comp)
+        public void SwitchToLocal(IIO IO)
         {
-            IIO.SaveComposition(comp);
+            CompositionList.Clear();
+            IIO = IO;
+            CompositionList = IIO.ReadPlaylist(CompositionList);
+        }
+
+        public bool SaveComposition(Composition comp)
+        {
+            return IIO.SaveComposition(comp);
         }
 
     }

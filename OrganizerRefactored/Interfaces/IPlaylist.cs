@@ -10,6 +10,8 @@ namespace OrganizerRefactored
         event EventHandler SelectionChangedEvent;
         List<Composition> GetSelectedComposition();
         void RefreshCollection();
-        void SaveComposition(Composition comp);
+        bool SaveComposition(Composition comp);
+        void SwitchToVK(IIO IoVK);
+        void SwitchToLocal(IIO IO);
     }
 }

@@ -39,7 +39,8 @@ namespace OrganizerRefactored
         public void Play()
         {
             if (me_Player.Source == null)
-                me_Player.Source = new Uri(IPlaylist.GetSelectedComposition().First().Path);
+                me_Player.Source = new Uri(IPlaylist.GetSelectedComposition().First().Path, UriKind.Absolute);
+            MessageBox.Show(IPlaylist.GetSelectedComposition().First().Path);
             if (!paused)               
                 me_Player.Play();
             paused = false;

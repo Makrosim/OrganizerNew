@@ -9,7 +9,7 @@
     <v:String x:Key="tb_Performers">Performers</v:String>
     <v:String x:Key="tb_Title">Title</v:String>
     <v:String x:Key="tb_Album">Album</v:String>
-    <v:String x:Key="tb_Genres">Genres</v:String>
+    <v:String x:Key="tb_Genre">Genre</v:String>
     <v:String x:Key="tb_Year">Year</v:String>
     <v:String x:Key="tb_MusicBrainzID">MusicBrainzID</v:String>
 

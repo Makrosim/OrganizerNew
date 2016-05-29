@@ -3,17 +3,24 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.IO;
 using TagLib;
+using VkNet;
+using VkNet.Enums.Filters;
+using VkNet.Model;
+using VkNet.Model.RequestParams;
+using VkNet.Enums;
 
 namespace OrganizerRefactored
 {
     class IOVK : IIO
     {
-        public IOVK(int appId, string login, string password)
-        {
+        VkApi vk;
+        User user;
 
+        public IOVK(ulong appId, string login, string password)
+        {
+            vk = new VkApi();
+            vk.Authorize(new ApiAuthParams {ApplicationId = appId, Login = login, Password = password, Settings = Settings.All});
         }
 
         public void WritePlaylist(ObservableCollection<Composition> playlist)
@@ -23,23 +30,13 @@ namespace OrganizerRefactored
 
         public ObservableCollection<Composition> ReadPlaylist(ObservableCollection<Composition> playlist)
         {
-
+            var audios = vk.Audio.Get(out user, new AudioGetParams {Count = 6000, NeedUser = true });
+            FillCollection(playlist, audios);
                 return playlist;
-
         }
 
         public ObservableCollection<Composition> OpenFiles(ObservableCollection<Composition> playlist)
         {
-            var opened = new List<string>();
-            var openFileDialog = new Microsoft.Win32.OpenFileDialog();
-            openFileDialog.Multiselect = true;
-
-            if (openFileDialog.ShowDialog() == true)
-            {
-                opened = openFileDialog.FileNames.ToList();
-            }
-
-            FillCollection(playlist, opened);
             return playlist;
         }
 
@@ -48,51 +45,51 @@ namespace OrganizerRefactored
             return playlist;
         }
 
-        private void FillCollection(ObservableCollection<Composition> playlist, List<string> opened)
+        private void FillCollection(ObservableCollection<Composition> playlist, ReadOnlyCollection<VkNet.Model.Attachments.Audio> opened)
         {
-            foreach (Composition comp in playlist)
+            foreach (var audio in opened)
             {
-                foreach (string _path in opened)
-                {
-                    if (comp.Path.Equals(_path))
-                    {
-                        opened.Remove(_path);
-                        break;
-                    }
-                }
-            }
+                Composition comp = new Composition();
 
-            var pattern = new Regex(@"mp3$"); //Добавить форматы
-            foreach (string path in opened)
-            {
-                if (pattern.IsMatch(path) && (System.IO.File.Exists(path)))
-                {
-                    try
-                    {
-                        Composition comp = new Composition();
-                        playlist.Add(comp);
-                        comp.Number = (UInt32)playlist.IndexOf(comp) + 1;
-                    }
-                    catch (Exception ex)
-                    {
-                        System.Windows.MessageBox.Show("Error reading the file path:" + ex.Message);
-                    }
-                }
+                comp.Title = audio.Title;
+                comp.Performers = audio.Artist;
+                comp.UpperLine = audio.Artist + " - " + audio.Title;
+                comp.Genre = audio.Genre.ToString();
+                var tmp1 = TimeSpan.FromSeconds(audio.Duration);
+                comp.Duration = tmp1.ToString("mm\\:ss");
+
+                string tmp = audio.Url.ToString();
+                comp.Path = tmp.Substring(0, tmp.IndexOf(@"?"));
+                comp.FileName = audio.Id.ToString();
+                comp.Album = null;
+                comp.Year = null;
+                comp.LowerLine = null;
+                comp.TagType = null;
+
+                playlist.Add(comp);
+
+                comp.Number = (UInt32)playlist.IndexOf(comp) + 1;
             }
         }
 
-        public void SaveComposition(Composition comp)
+        public bool SaveComposition(Composition comp)
         {
-            var Audiofile = TagLib.File.Create(comp.Path);
-            Audiofile.Tag.Performers = comp.Performers.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
-            Audiofile.Tag.Title = comp.Title;
-            Audiofile.Tag.Album = comp.Album;
-            Audiofile.Tag.Genres = comp.Genres.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
-            Audiofile.Tag.Year = Convert.ToUInt32(comp.Year);
-            Audiofile.Tag.MusicBrainzTrackId = comp.MusicBrainzID;
-            Audiofile.Save();
-            comp.Lb_Title = String.Join(", ", Audiofile.Tag.Performers) + " - " + Audiofile.Tag.Title;
-            comp.OnPropertyChanged("Lb_Title");
+            try
+            {
+                vk.Audio.Edit(new AudioEditParams
+                {
+                    OwnerId = user.Id,
+                    AudioId = Convert.ToInt32(comp.FileName),
+                    Title = comp.Title,
+                    Artist = comp.Performers,
+                    GenreId = (AudioGenre)Enum.Parse(typeof(AudioGenre), comp.Genre)
+                });
+            }
+            catch (ArgumentException ex) // Какого хуя не работает?
+            {
+                return false;
+            }
+            return true;
         }
 
     }

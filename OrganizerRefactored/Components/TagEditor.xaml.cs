@@ -76,11 +76,12 @@ namespace OrganizerRefactored
                         comp.Performers = Composition.Performers;
                     if (chb_Album.IsChecked == true)
                         comp.Album = Composition.Album;
-                    if (chb_Genres.IsChecked == true)
-                        comp.Genres = Composition.Genres;
+                    if (chb_Genre.IsChecked == true)
+                        comp.Genre = Composition.Genre;
                     if (chb_Year.IsChecked == true)
                         comp.Year = Composition.Year;
-                    ICompList.SaveComposition(comp); // копировать
+                    if(!ICompList.SaveComposition(comp))
+                        MessageBox.Show("Вконтакте позволяет задавать жанры аудиозаписей из следующего перечисления:\n Rock, Pop, Rap & Hip - Hop, Easy Listening, Dance & House, Instrumental, Metal, Alternative, Dubstep, Jazz & Blues, Drum & Bass, Trance, Chanson, Ethnic, Acoustic & Vocal, Reggae, Classical, Indie Pop, Speech, Electropop & Disco, Other\n Пожалуйста, введите корректное значение.");
                 }
             }
             else

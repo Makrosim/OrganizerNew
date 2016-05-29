@@ -95,13 +95,13 @@
                 <CheckBox Name="chb_Album"/>
             </StackPanel>
             <StackPanel>
-                <TextBlock Text="{DynamicResource tb_Genres}"/>
-                <TextBox Name ="tbx_Genres" Text="{Binding Composition.Genres, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}"  IsEnabled="{Binding ElementName=chb_Genres, Path=IsChecked}" KeyDown="TagManuallyEdited"/>
-                <CheckBox Name="chb_Genres"/>
+                <TextBlock Text="{DynamicResource tb_Genre}"/>
+                <TextBox Name ="tbx_Genre" Text="{Binding Composition.Genre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}"  IsEnabled="{Binding ElementName=chb_Genres, Path=IsChecked}" KeyDown="TagManuallyEdited"/>
+                <CheckBox Name="chb_Genre"/>
             </StackPanel>
             <StackPanel>
                 <TextBlock Text="{DynamicResource tb_Year}"/>
-                <TextBox Name ="tbx_Year" Text="{Binding Composition.TagType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}"  IsEnabled="{Binding ElementName=chb_Year, Path=IsChecked}" KeyDown="TagManuallyEdited"/>
+                <TextBox Name ="tbx_Year" Text="{Binding Composition.Year, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}"  IsEnabled="{Binding ElementName=chb_Year, Path=IsChecked}" KeyDown="TagManuallyEdited"/>
                 <CheckBox Name="chb_Year"/>
             </StackPanel>
             <StackPanel>
