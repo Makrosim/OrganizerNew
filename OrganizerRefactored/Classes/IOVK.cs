@@ -72,7 +72,7 @@ namespace OrganizerRefactored
             }
         }
 
-        public bool SaveComposition(Composition comp)
+        public bool SaveComposition(Composition comp) //Add text
         {
             try
             {
@@ -82,13 +82,14 @@ namespace OrganizerRefactored
                     AudioId = Convert.ToInt32(comp.FileName),
                     Title = comp.Title,
                     Artist = comp.Performers,
-                    GenreId = (AudioGenre)Enum.Parse(typeof(AudioGenre), comp.Genre)
+                    GenreId = (AudioGenre)Enum.Parse(typeof(AudioGenre), comp.Genre),
+                    Text = null
                 });
-            }
-            catch (ArgumentException ex) // Какого хуя не работает?
+        }
+            catch (ArgumentException ex)
             {
                 return false;
-            }
+    }
             return true;
         }
 
