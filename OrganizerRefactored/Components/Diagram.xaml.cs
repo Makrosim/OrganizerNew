@@ -85,6 +85,17 @@ namespace OrganizerRefactored
             var OuterRectVer = GetVertices(120, 160, 160);
             var LabelVer = GetVertices(130, 160, 160);
 
+            for(int i = 0; i < 5; i++)
+            {
+                var GenreText = new TextBlock();
+                GenreText.Text = info[i].Genre;
+                GenreText.Padding = new Thickness(0);
+                GenreText.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                Canvas.SetLeft(GenreText, LabelVer[i].x - GenreText.DesiredSize.Width / 2);
+                Canvas.SetTop(GenreText, LabelVer[i].y - GenreText.DesiredSize.Height / 2);
+                cnvs_Diagram.Children.Add(GenreText);
+            }
+
             var OuterPentagon = new Polygon();
             OuterPentagon.Fill = System.Windows.Media.Brushes.BurlyWood;
             OuterPentagon.Opacity = 0.2;
