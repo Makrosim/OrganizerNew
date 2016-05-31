@@ -17,6 +17,7 @@ namespace OrganizerRefactored
     public partial class ImageViewer : Page
     {
         IPlaylist Iplaylist;
+        Composition comp;
         public ImageViewer(IPlaylist Iplay)
         {
             InitializeComponent();
@@ -26,11 +27,14 @@ namespace OrganizerRefactored
 
         private void GetImage(object sender, EventArgs e)
         {
-            var image = Iplaylist.GetSelectedCompositions().First()?.Image;
-            if (image != null)
-                im_Art.Source = image;
-            else
-                im_Art.Source = null;
+            if (Iplaylist.GetSelectedCompositions().Count() > 0)
+            {
+                comp = Iplaylist.GetSelectedCompositions().First();
+                if (comp.Image != null)
+                    im_Art.Source = comp.Image;
+                else
+                    im_Art.Source = null;
+            }
         }
 
     }

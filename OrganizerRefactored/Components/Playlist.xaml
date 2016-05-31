@@ -33,9 +33,9 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <StackPanel Grid.Row="2" Orientation="Horizontal">
-            <Button Content="{DynamicResource btn_OpenFiles}" Command="{Binding cmd_Open}" Width="100"/>
-            <Button Content="{DynamicResource btn_OpenFolder}" Command="{Binding cmd_OpenFolder}" Width="100"/>
-            <Button Content="{DynamicResource btn_RemoveFiles}" Command="{Binding cmd_Remove}" Width="100"/>
+            <Button Name ="btn_Open" Content="{DynamicResource btn_OpenFiles}" Command="{Binding cmd_Open}" Width="100"/>
+            <Button Name ="btn_OpenFolder" Content="{DynamicResource btn_OpenFolder}" Command="{Binding cmd_OpenFolder}" Width="100"/>
+            <Button Name ="btn_Remove" Content="{DynamicResource btn_RemoveFiles}" Command="{Binding cmd_Remove}" Width="100"/>
         </StackPanel>
     </StackPanel>
 </Page>

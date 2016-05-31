@@ -51,15 +51,36 @@ namespace OrganizerRefactored
 
         private void SelectionChanged(object sender, EventArgs e)
         {
-            CompList = ICompList.GetSelectedCompositions();
+            if(ICompList.GetSelectedCompositions().Count() > 0)
+                CompList = ICompList.GetSelectedCompositions();
 
             if (CompList != null)
-                Composition = CompList.First();        
+            {
+                Composition = CompList.First();
+
+                if (Composition.Path.StartsWith("http"))
+                {
+                    btn_Recognize.IsEnabled = false;
+                    btn_ToUTF8.IsEnabled = false;
+                    btn_TagToTheName.IsEnabled = false;
+                    tbx_ID.IsEnabled = false;
+                    tbx_Year.IsEnabled = false;
+                }
+                else
+                {
+                    btn_Recognize.IsEnabled = true;
+                    btn_ToUTF8.IsEnabled = true;
+                    btn_TagToTheName.IsEnabled = true;
+                    tbx_ID.IsEnabled = true;
+                    tbx_Year.IsEnabled = true;
+                }
+            }
 
             if (CompList.Count > 1)
                 IsMultiselect = true;
             else
                 IsMultiselect = false;
+
             OldComposition = null;
             Saved = true;
             OnPropertyChanged("Composition");

@@ -93,26 +93,34 @@ namespace OrganizerRefactored
         public List<Composition> GetSelectedCompositions()
         {
             List<Composition> selected = new List<Composition>();
-            if (lb_List.SelectedItems.Count > 1)
+            if (lb_List.SelectedItems.Count != 0)
             {
-                foreach (Composition comp in lb_List.SelectedItems)
-                    selected.Add(comp);
-                return selected;
+                if (lb_List.SelectedItems.Count > 1)
+                {
+                    foreach (Composition comp in lb_List.SelectedItems)
+                        selected.Add(comp);
+                    return selected;
+                }
+                else
+                {
+                    selected.Add(lb_List.SelectedItem as Composition);
+                    return selected;
+                }
             }
             else
-            {
-                selected.Add(lb_List.SelectedItem as Composition);
                 return selected;
-            }
         }
 
         public void SwitchToVK(IIO IoVK)
         {
             IIO.WritePlaylist(CompositionList);
+            lb_List.SelectedItems.Clear();
             CompositionList.Clear();
             IIO = IoVK;
             CompositionList = IIO.ReadPlaylist(CompositionList);
             CollectionFilled?.Invoke(this, new EventArgs());
+            btn_Open.IsEnabled = false;
+            btn_OpenFolder.IsEnabled = false;
         }
 
         public void SwitchToLocal(IIO IO)
@@ -121,6 +129,8 @@ namespace OrganizerRefactored
             IIO = IO;
             CompositionList = IIO.ReadPlaylist(CompositionList);
             CollectionFilled?.Invoke(this, new EventArgs());
+            btn_Open.IsEnabled = true;
+            btn_OpenFolder.IsEnabled = true;
         }
 
         public bool SaveComposition(Composition comp)

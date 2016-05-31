@@ -77,24 +77,15 @@ namespace OrganizerRefactored
             }
         }
 
-        private void btn_EditVK_Checked(object sender, RoutedEventArgs e) //GabrageCollector
+        private void btn_EditVK_Checked(object sender, RoutedEventArgs e)
         {
             diag = new Diagram(Iplaylist);
-            MessageBox.Show("2");
             fr_Diagram.NavigationService.Navigate(diag);
-            MessageBox.Show("1");
-            img = null;
-            GC.Collect(2, GCCollectionMode.Forced);
-
-            if(img == null)
-                MessageBox.Show("3");
             Iplaylist.SwitchToVK(new IOVK(appId, login, password));
-            MessageBox.Show("4");
         }
 
         private void btn_EditLocal_Checked(object sender, RoutedEventArgs e)
         {
-            diag = null;
             img = new ImageViewer(Iplaylist);
             fr_Diagram.NavigationService.Navigate(img);
             Iplaylist.SwitchToLocal(Iio);
