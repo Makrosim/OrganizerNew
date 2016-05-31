@@ -61,7 +61,7 @@
         </Style>
     </Page.Resources>
 
-    <GroupBox VerticalAlignment="Top" HorizontalAlignment="Left">
+    <GroupBox Margin="0">
         <GroupBox.Header>
             <StackPanel Orientation="Horizontal">
                 <StackPanel.Resources>

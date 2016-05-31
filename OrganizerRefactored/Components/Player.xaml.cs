@@ -12,6 +12,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.IO;
+using System.Net;
 
 namespace OrganizerRefactored
 {
@@ -38,10 +40,20 @@ namespace OrganizerRefactored
 
         public void Play()
         {
+            string path = IPlaylist.GetSelectedCompositions().First().Path;
+            string fileResult;
+            Uri uri = new Uri(path, UriKind.Absolute);
             if (me_Player.Source == null)
-                me_Player.Source = new Uri(IPlaylist.GetSelectedCompositions().First().Path, UriKind.Absolute);
-            MessageBox.Show(IPlaylist.GetSelectedCompositions().First().Path);
-            if (!paused)               
+                if(path.StartsWith("http"))
+                {
+                    fileResult = System.IO.Path.Combine(Environment.CurrentDirectory, "tmpplay.mp3");
+                    WebClient wc = new WebClient();
+                    wc.DownloadFileAsync(uri, fileResult);
+                    me_Player.Source = new Uri(fileResult, UriKind.Absolute);
+                }
+                else
+                    me_Player.Source = new Uri(path, UriKind.Absolute);
+            if (!paused)
                 me_Player.Play();
             paused = false;
         }

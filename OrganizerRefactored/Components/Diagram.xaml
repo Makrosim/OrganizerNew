@@ -10,11 +10,11 @@
 
     <GroupBox>
         <StackPanel>
-            <StackPanel Orientation="Horizontal" Height="20">
-                <CheckBox Name="chb_AllowOther"/>
-                <Label Content="Allow Other"/>
-                <Button Name="btn_Share" Content="Share To VK" Command="{Binding cmd_Share}"/>
-            </StackPanel>
+            <DockPanel Height="25">
+                <CheckBox Name="chb_AllowOther" VerticalAlignment="Center" Checked="OtherSwitch" Unchecked="OtherSwitch"/>
+                <TextBlock Text="Allow Other" Padding="0" VerticalAlignment="Center"/>
+                <Button Name="btn_Share" Content="Share To VK" Command="{Binding cmd_Share}" HorizontalAlignment="Right" Margin="3"/>
+            </DockPanel>
             <Canvas Name = "cnvs_Diagram" Height="268"/>
         </StackPanel>
     </GroupBox>

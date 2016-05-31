@@ -14,25 +14,61 @@ using System.Windows.Shapes;
 
 namespace OrganizerRefactored
 {
-    /// <summary>
-    /// Interaction logic for Diagram.xaml
-    /// </summary>
+    class Comparer : IComparer<KeyValuePair<string, long>>
+    {
+        public int Compare(KeyValuePair<string, long> one, KeyValuePair<string, long> two)
+        {
+            if (one.Value == two.Value)
+                return 0;
+
+            if (one.Value < two.Value)
+                return -1;
+            else
+                return 1;
+        }
+    }
+
     public partial class Diagram : Page
     {
         List<Composition> CompList;
         IPlaylist Iplaylist;
         Dictionary<string, long> genres;
         int CompAmount;
+        float x = 160;
+        float y = 160 - 20;
+        float radius = 120;
 
         public Diagram(IPlaylist Iplay)
         {
             InitializeComponent();
             Iplaylist = Iplay;
-            Iplaylist.CollectionFilled += FillDictionary;
+            Iplaylist.CollectionFilled += DrawDiagram;
             CompAmount = Iplaylist.GetAllCompositions().Count();
         }
 
-        private void FillDictionary(object sender, EventArgs e) //Task??
+        public struct DrawInfo
+        {
+            public string Genre;
+            public double Ratio;
+
+            public DrawInfo(string genre, double ratio)
+            {
+                Genre = genre;
+                Ratio = ratio / 100;
+            }
+        }
+
+        public struct Vector2
+        {
+            public float x, y;
+            public Vector2(double X, double Y)
+            {
+                x = (float)X;
+                y = (float)Y;
+            }
+        }
+
+        private void DrawDiagram(object sender, EventArgs e)
         {
             CompList = this.Iplaylist.GetAllCompositions();
             genres = new Dictionary<string, long>();
@@ -48,47 +84,25 @@ namespace OrganizerRefactored
                     genres.Add(comp.Genre, count);
                 }
                 else
-                    if(!comp.Genre.Equals(""))
-                        genres.Add(comp.Genre, 1);
+                if(!((chb_AllowOther.IsChecked == false)&&(comp.Genre.Equals("Other"))) && !comp.Genre.Equals(""))
+                    genres.Add(comp.Genre, 1);
             }
 
             var sorted = genres.OrderByDescending(el => el, new Comparer());
-            var keys = new List<DrawInfo>();
+            var DrawInfo = new List<DrawInfo>();
 
             foreach (var el in sorted)
-                keys.Add(new DrawInfo(el.Key, el.Value * 100 / sorted.First().Value));
+                DrawInfo.Add(new DrawInfo(el.Key, el.Value * 100 / sorted.First().Value));
 
-            keys.RemoveRange(5, keys.Count() - 5);
+            DrawInfo.RemoveRange(5, DrawInfo.Count() - 5);
 
-            //foreach (var el in keys)
-            //    MessageBox.Show(el.Ratio.ToString());
+            var OuterRectVer = GetVertices(radius, x, y);
+            var LabelVer = GetVertices(radius + 10, x, y);
 
-            Draw(keys);
-        }
-
-        class Comparer : IComparer<KeyValuePair<string, long>>
-        {
-            public int Compare(KeyValuePair<string, long> one, KeyValuePair<string, long> two)
-            {
-                if (one.Value == two.Value)
-                    return 0;
-
-                if (one.Value < two.Value)
-                    return -1;
-                else
-                    return 1;                
-            }
-        }
-
-        private void Draw(List<DrawInfo> info)
-        {
-            var OuterRectVer = GetVertices(120, 160, 160);
-            var LabelVer = GetVertices(130, 160, 160);
-
-            for(int i = 0; i < 5; i++)
+            for (int i = 0; i < 5; i++)
             {
                 var GenreText = new TextBlock();
-                GenreText.Text = info[i].Genre;
+                GenreText.Text = DrawInfo[i].Genre;
                 GenreText.Padding = new Thickness(0);
                 GenreText.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
                 Canvas.SetLeft(GenreText, LabelVer[i].x - GenreText.DesiredSize.Width / 2);
@@ -125,7 +139,7 @@ namespace OrganizerRefactored
                 cnvs_Diagram.Children.Add(myLine);
             }
 
-            var InnerRectVer = GetVertices(120, 160, 160, info);
+            var InnerRectVer = GetVertices(120, 160, 160, DrawInfo);
 
             var InnerPentagon = new Polygon();
             Brush str = Brushes.Gold;
@@ -143,32 +157,8 @@ namespace OrganizerRefactored
 
             InnerPentagon.Points = InnerPointColletion;
             cnvs_Diagram.Children.Add(InnerPentagon);
-
-
-
         }
 
-        public struct DrawInfo
-        {
-            public string Genre;
-            public double Ratio;
-
-            public DrawInfo(string genre, double ratio)
-            {
-                Genre = genre;
-                Ratio = ratio / 100;
-            }
-        }
-
-        public struct Vector2
-        {
-            public float x, y;
-            public Vector2(double X, double Y)
-            {
-                x = (float)X;
-                y = (float)Y;
-            }
-        }
         /// <summary>
         /// ...
         /// </summary>
@@ -190,6 +180,12 @@ namespace OrganizerRefactored
             for (int i = 0; i < 5; i++)
                 v.Add(new Vector2(x0 - R * Math.Sin(2 * Math.PI * i / 5) * ratio[i].Ratio, y0 - R * (float)Math.Cos(2 * Math.PI * i / 5) * ratio[i].Ratio));
             return v;
+        }
+
+        private void OtherSwitch(object sender, RoutedEventArgs e)
+        {
+            cnvs_Diagram.Children.Clear();
+            DrawDiagram(this, new EventArgs());
         }
     }
 }
