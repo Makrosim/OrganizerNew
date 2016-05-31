@@ -24,30 +24,30 @@ namespace OrganizerRefactored
         public event EventHandler WindowLoaded;
         public event EventHandler WindowClosed;
         public ActionCommand cmd_Change { get; set; }
-        public ActionCommand cmd_EditVK { get; set; }
-        public ActionCommand cmd_EditLocal { get; set; }
+
         Player player;
         TagEditor editor;
         IPlaylist Iplaylist;
         IIO Iio;
+        ImageViewer img;
+        Diagram diag;
 
         public MainWindow()
         {
             InitializeComponent();
             DataContext = this;
             App.LanguageChanged += LanguageChanged;
-            Iio = new IO();
+            cmd_Change = new ActionCommand(ChangeLanguage) { IsExecutable = true };
 
+            Iio = new IO();
             Iplaylist = new Playlist(Iio, this);
             player = new Player(Iplaylist);
             editor = new TagEditor(Iplaylist);
-            cmd_Change = new ActionCommand(ChangeLanguage) { IsExecutable = true };
-            cmd_EditVK = new ActionCommand(EditVK) { IsExecutable = true };
-            cmd_EditLocal = new ActionCommand(EditLocal) { IsExecutable = true };
 
             fr_TagEdiror.NavigationService.Navigate(editor);
             fr_Player.NavigationService.Navigate(player);
             fr_Playlist.NavigationService.Navigate(Iplaylist);
+            rbtn_EditLocal.IsChecked = true;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -77,15 +77,26 @@ namespace OrganizerRefactored
             }
         }
 
-        private void EditVK()
+        private void btn_EditVK_Checked(object sender, RoutedEventArgs e) //GabrageCollector
         {
-            Diagram diag = new Diagram(Iplaylist);
+            diag = new Diagram(Iplaylist);
+            MessageBox.Show("2");
             fr_Diagram.NavigationService.Navigate(diag);
+            MessageBox.Show("1");
+            img = null;
+            GC.Collect(2, GCCollectionMode.Forced);
+
+            if(img == null)
+                MessageBox.Show("3");
             Iplaylist.SwitchToVK(new IOVK(appId, login, password));
+            MessageBox.Show("4");
         }
 
-        private void EditLocal()
+        private void btn_EditLocal_Checked(object sender, RoutedEventArgs e)
         {
+            diag = null;
+            img = new ImageViewer(Iplaylist);
+            fr_Diagram.NavigationService.Navigate(img);
             Iplaylist.SwitchToLocal(Iio);
         }
 

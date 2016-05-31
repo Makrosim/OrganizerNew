@@ -9,6 +9,7 @@ using Microsoft.Win32;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using TagLib;
+using System.Windows.Media.Imaging;
 
 namespace OrganizerRefactored
 {
@@ -122,12 +123,27 @@ namespace OrganizerRefactored
                         comp.LowerLine = Audiofile.Properties.AudioBitrate.ToString() + "kbps  " + Convert.ToString(Audiofile.Length / 1048576);
                         comp.Duration = Audiofile.Properties.Duration.ToString("mm\\:ss");
                         comp.TagType = Audiofile.Tag.TagTypes.ToString();
+
+                        if (Audiofile.Tag.Pictures.Count() != 0)
+                        {
+                            TagLib.IPicture pic = Audiofile.Tag.Pictures[0];
+                            MemoryStream ms = new MemoryStream(pic.Data.Data);
+                            ms.Seek(0, SeekOrigin.Begin);
+
+                            BitmapImage bitmap = new BitmapImage();
+                            bitmap.BeginInit();
+                            bitmap.StreamSource = ms;
+                            bitmap.EndInit();
+
+                            comp.Image = bitmap;
+                        }
+
                         playlist.Add(comp);
                         comp.Number = (UInt32)playlist.IndexOf(comp) + 1;
                     }
                     catch (Exception ex)
                     {
-                        System.Windows.MessageBox.Show("Error reading the file path:" + ex.Message);
+                        System.Windows.MessageBox.Show("Error reading the file path: " + ex.Message);
                     }
                 }
             }

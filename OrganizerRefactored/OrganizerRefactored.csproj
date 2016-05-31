@@ -78,6 +78,9 @@
     <Compile Include="Components\Diagram.xaml.cs">
       <DependentUpon>Diagram.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\ImageViewer.xaml.cs">
+      <DependentUpon>ImageViewer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\IMainWindow.cs" />
     <Compile Include="Interfaces\IPlaylist.cs" />
     <Compile Include="Interfaces\IIO.cs" />
@@ -86,6 +89,10 @@
       <DependentUpon>TagEditor.xaml</DependentUpon>
     </Compile>
     <Page Include="Components\Diagram.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\ImageViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

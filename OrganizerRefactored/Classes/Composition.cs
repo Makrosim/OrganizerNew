@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.ComponentModel;
+using System.Windows.Media.Imaging;
 
 namespace OrganizerRefactored
 {
@@ -20,6 +21,7 @@ namespace OrganizerRefactored
         public string MusicBrainzID { get; set; }
         public string Duration { get; set; }
         public string TagType { get; set; }
+        public BitmapImage Image { get; set; }
 
         public string Title { get; set; }
         public string UpperLine { get; set; }
