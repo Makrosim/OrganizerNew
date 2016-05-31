@@ -75,6 +75,9 @@
     <Compile Include="Classes\ActionCommand.cs" />
     <Compile Include="Classes\Composition.cs" />
     <Compile Include="Classes\IOVK.cs" />
+    <Compile Include="Components\Diagram.xaml.cs">
+      <DependentUpon>Diagram.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\IMainWindow.cs" />
     <Compile Include="Interfaces\IPlaylist.cs" />
     <Compile Include="Interfaces\IIO.cs" />
@@ -82,6 +85,10 @@
     <Compile Include="Components\TagEditor.xaml.cs">
       <DependentUpon>TagEditor.xaml</DependentUpon>
     </Compile>
+    <Page Include="Components\Diagram.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Components\Playlist.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -8,9 +8,11 @@ namespace OrganizerRefactored
     public interface IPlaylist
     {
         event EventHandler SelectionChangedEvent;
-        List<Composition> GetSelectedComposition();
-        void RefreshCollection();
+        event EventHandler CollectionFilled;
+        List<Composition> GetSelectedCompositions();
+        List<Composition> GetAllCompositions();
         bool SaveComposition(Composition comp);
+        void RefreshCollection();
         void SwitchToVK(IIO IoVK);
         void SwitchToLocal(IIO IO);
     }

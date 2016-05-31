@@ -79,6 +79,8 @@ namespace OrganizerRefactored
 
         private void EditVK()
         {
+            Diagram diag = new Diagram(Iplaylist);
+            fr_Diagram.NavigationService.Navigate(diag);
             Iplaylist.SwitchToVK(new IOVK(appId, login, password));
         }
 

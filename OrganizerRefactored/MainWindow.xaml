@@ -16,7 +16,11 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Frame Name="fr_TagEdiror" NavigationUIVisibility="Hidden" />
+        <StackPanel>
+            <Frame Name="fr_TagEdiror" NavigationUIVisibility="Hidden" />
+            <Frame Name="fr_Diagram" NavigationUIVisibility="Hidden" />
+        </StackPanel>
+
         <StackPanel Grid.Column="1" Orientation="Vertical">
             <Frame Name="fr_Player" NavigationUIVisibility="Hidden"/>
             <Frame Name="fr_Playlist" NavigationUIVisibility="Hidden"/>

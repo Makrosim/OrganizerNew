@@ -22,6 +22,7 @@ namespace OrganizerRefactored
         public ActionCommand cmd_OpenFolder { get; set; }
         public ActionCommand cmd_Remove { get; set; }
         public event EventHandler SelectionChangedEvent;
+        public event EventHandler CollectionFilled;
         public IIO IIO;
         public IMainWindow IMainWindow;
 
@@ -42,6 +43,7 @@ namespace OrganizerRefactored
         public void WindowLoaded(object sender, EventArgs e)
         {
             CompositionList = IIO.ReadPlaylist(CompositionList);
+            CollectionFilled?.Invoke(this, new EventArgs());
         }
 
         public void WindowClosed(object sender, EventArgs e)
@@ -88,7 +90,7 @@ namespace OrganizerRefactored
             SelectionChangedEvent?.Invoke(this, e);
         }
 
-        public List<Composition> GetSelectedComposition()
+        public List<Composition> GetSelectedCompositions()
         {
             List<Composition> selected = new List<Composition>();
             if (lb_List.SelectedItems.Count > 1)
@@ -110,6 +112,7 @@ namespace OrganizerRefactored
             CompositionList.Clear();
             IIO = IoVK;
             CompositionList = IIO.ReadPlaylist(CompositionList);
+            CollectionFilled?.Invoke(this, new EventArgs());
         }
 
         public void SwitchToLocal(IIO IO)
@@ -117,11 +120,17 @@ namespace OrganizerRefactored
             CompositionList.Clear();
             IIO = IO;
             CompositionList = IIO.ReadPlaylist(CompositionList);
+            CollectionFilled?.Invoke(this, new EventArgs());
         }
 
         public bool SaveComposition(Composition comp)
         {
             return IIO.SaveComposition(comp);
+        }
+
+        public List<Composition> GetAllCompositions()
+        {
+            return CompositionList.ToList<Composition>();
         }
 
     }

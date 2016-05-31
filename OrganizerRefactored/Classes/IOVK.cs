@@ -55,6 +55,7 @@ namespace OrganizerRefactored
                 comp.Performers = audio.Artist;
                 comp.UpperLine = audio.Artist + " - " + audio.Title;
                 comp.Genre = audio.Genre.ToString();
+
                 var tmp1 = TimeSpan.FromSeconds(audio.Duration);
                 comp.Duration = tmp1.ToString("mm\\:ss");
 
@@ -74,6 +75,13 @@ namespace OrganizerRefactored
 
         public bool SaveComposition(Composition comp) //Add text
         {
+            var audio = vk.Audio.GetById(comp.FileName);
+            string text;
+
+            if (audio.First().LyricsId != null)
+                text = vk.Audio.GetLyrics((long)audio.First().LyricsId).ToString();
+            else
+                text = "";
             try
             {
                 vk.Audio.Edit(new AudioEditParams
@@ -83,13 +91,13 @@ namespace OrganizerRefactored
                     Title = comp.Title,
                     Artist = comp.Performers,
                     GenreId = (AudioGenre)Enum.Parse(typeof(AudioGenre), comp.Genre),
-                    Text = null
+                    Text = text
                 });
-        }
+            }
             catch (ArgumentException ex)
             {
                 return false;
-    }
+            }
             return true;
         }
 

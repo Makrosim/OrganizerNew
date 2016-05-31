@@ -16,6 +16,7 @@ namespace OrganizerRefactored
         public string Album { get; set; }
         public string Genre { get; set; }
         public string Year { get; set; }
+        public string Text { get; set; }
         public string MusicBrainzID { get; set; }
         public string Duration { get; set; }
         public string TagType { get; set; }

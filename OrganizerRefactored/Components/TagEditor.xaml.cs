@@ -51,7 +51,7 @@ namespace OrganizerRefactored
 
         private void SelectionChanged(object sender, EventArgs e)
         {
-            CompList = ICompList.GetSelectedComposition();
+            CompList = ICompList.GetSelectedCompositions();
 
             if (CompList != null)
                 Composition = CompList.First();        
