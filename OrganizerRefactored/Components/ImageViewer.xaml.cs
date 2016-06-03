@@ -27,14 +27,11 @@ namespace OrganizerRefactored
 
         private void GetImage(object sender, EventArgs e)
         {
-            if (Iplaylist.GetSelectedCompositions().Count() > 0)
-            {
                 comp = Iplaylist.GetSelectedCompositions().First();
                 if (comp.Image != null)
                     im_Art.Source = comp.Image;
                 else
                     im_Art.Source = null;
-            }
         }
 
     }

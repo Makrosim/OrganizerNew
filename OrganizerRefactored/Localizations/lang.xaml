@@ -14,17 +14,28 @@
     <v:String x:Key="tb_MusicBrainzID">MusicBrainzID</v:String>
 
     <v:String x:Key="btn_Change">Change Language</v:String>
-    <v:String x:Key="btn_EditVK">Edit VK Playlist</v:String>
-    <v:String x:Key="btn_EditLocal">Edit Local Collection</v:String>
+    <v:String x:Key="btn_EditVK">Edit VK playlist</v:String>
+    <v:String x:Key="btn_EditLocal">Edit local collection</v:String>
 
     <v:String x:Key="btn_Play">Play</v:String>
     <v:String x:Key="btn_Stop">Stop</v:String>
     <v:String x:Key="btn_Pause">Pause</v:String>
 
     <v:String x:Key="btn_OpenFiles">Open</v:String>
-    <v:String x:Key="btn_OpenFolder">Open Folder</v:String>
+    <v:String x:Key="btn_OpenFolder">Open folder</v:String>
     <v:String x:Key="btn_RemoveFiles">Remove</v:String>
 
-    <v:String x:Key="btn_Download">Download</v:String>
+    <v:String x:Key="btn_FixEncoding">Fix encoding</v:String>
+    <v:String x:Key="btn_TagToTheName">Name from tags</v:String>
+
+    <v:String x:Key="chb_AllowOther">Allow "Other"</v:String>
+    <v:String x:Key="btn_Share">Share to VK</v:String>
+
+    <v:String x:Key="tblc_Invitation">Please, input your authorization data in the text boxes bellow</v:String>
+    <v:String x:Key="tblc_Login">Login</v:String>
+    <v:String x:Key="tblc_Password">Password</v:String>
+    <v:String x:Key="btn_Autohorize">Autohorize</v:String>
+
+
 
 </ResourceDictionary>

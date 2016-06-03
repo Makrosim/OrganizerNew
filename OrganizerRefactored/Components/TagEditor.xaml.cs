@@ -61,7 +61,7 @@ namespace OrganizerRefactored
                 if (Composition.Path.StartsWith("http"))
                 {
                     btn_Recognize.IsEnabled = false;
-                    btn_ToUTF8.IsEnabled = false;
+                    btn_FixEncoding.IsEnabled = false;
                     btn_TagToTheName.IsEnabled = false;
                     tbx_ID.IsEnabled = false;
                     tbx_Year.IsEnabled = false;
@@ -69,7 +69,7 @@ namespace OrganizerRefactored
                 else
                 {
                     btn_Recognize.IsEnabled = true;
-                    btn_ToUTF8.IsEnabled = true;
+                    btn_FixEncoding.IsEnabled = true;
                     btn_TagToTheName.IsEnabled = true;
                     tbx_ID.IsEnabled = true;
                     tbx_Year.IsEnabled = true;
@@ -109,7 +109,6 @@ namespace OrganizerRefactored
             {
                 if (!ICompList.SaveComposition(Composition))
                 {
-                    MessageBox.Show(Composition.Genre);
                     MessageBox.Show("Вконтакте позволяет задавать следующие жанры аудиозаписей:\nRock, Pop, Rap & Hip - Hop, Easy Listening, Dance & House, Instrumental, Metal, Alternative, Dubstep, Jazz & Blues, Drum & Bass, Trance, Chanson, Ethnic, Acoustic & Vocal, Reggae, Classical, Indie Pop, Speech, Electropop & Disco, Other\nПожалуйста, введите корректное значение.");
                 }
             }

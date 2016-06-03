@@ -25,6 +25,15 @@
     <v:String x:Key="btn_OpenFolder">Открыть Папку</v:String>
     <v:String x:Key="btn_RemoveFiles">Исключить</v:String>
 
-    <v:String x:Key="btn_Download">Загрузить</v:String>
-    
+    <v:String x:Key="btn_FixEncoding">Исправить кодировку</v:String>
+    <v:String x:Key="btn_TagToTheName">Имя по тегам</v:String>
+
+    <v:String x:Key="chb_AllowOther">Разрешить "Other"</v:String>
+    <v:String x:Key="btn_Share">Поделиться в ВК</v:String>
+
+    <v:String x:Key="tblc_Invitation">Пожайлуста, введите данные авторизации в поля ниже</v:String>
+    <v:String x:Key="tblc_Login">Логин</v:String>
+    <v:String x:Key="tblc_Password">Пароль</v:String>
+    <v:String x:Key="btn_Autohorize">Вход</v:String>
+
 </ResourceDictionary>

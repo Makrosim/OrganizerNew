@@ -31,6 +31,7 @@ namespace OrganizerRefactored
         IIO Iio;
         ImageViewer img;
         Diagram diag;
+        IAutohorize auth;
 
         public MainWindow()
         {
@@ -79,16 +80,33 @@ namespace OrganizerRefactored
 
         private void btn_EditVK_Checked(object sender, RoutedEventArgs e)
         {
+            auth = new AuthForm();
+            auth.SignIn += SignedIn;
+            fr_Playlist.NavigationService.Navigate(auth);
+        }
+
+        private void SignedIn(object sender, EventArgs e)
+        {
+            string[] AuthParams = auth.GetParams();
+            MessageBox.Show(AuthParams[0] + "\n" + AuthParams[1]);
+            try
+            {
+                Iplaylist.SwitchToVK(new IOVK(appId, AuthParams[0], AuthParams[1]));
+            }
+            catch
+            {
+                MessageBox.Show("AuthError");
+            }
+            fr_Playlist.NavigationService.Navigate(Iplaylist);
             diag = new Diagram(Iplaylist);
             fr_Diagram.NavigationService.Navigate(diag);
-            Iplaylist.SwitchToVK(new IOVK(appId, login, password));
         }
 
         private void btn_EditLocal_Checked(object sender, RoutedEventArgs e)
         {
+            Iplaylist.SwitchToLocal(Iio);
             img = new ImageViewer(Iplaylist);
             fr_Diagram.NavigationService.Navigate(img);
-            Iplaylist.SwitchToLocal(Iio);
         }
 
     }

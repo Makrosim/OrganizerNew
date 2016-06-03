@@ -109,8 +109,8 @@
                 <TextBox Name ="tbx_ID" Text="{Binding Composition.MusicBrainzID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Style="{StaticResource TextBox}" KeyDown="TagManuallyEdited"/>
             </StackPanel>
             <StackPanel>
-                <Button Name="btn_ToUTF8" Height="20" Content="ToUTF16" Command="{Binding cmd_ToUTF16}"/>
-                <Button Name="btn_TagToTheName" Height="20" Content="Tag to the name" Command="{Binding cmd_TagToTheName}"/>
+                <Button Name="btn_FixEncoding" Height="20" Content="{DynamicResource btn_FixEncoding}" Command="{Binding cmd_ToUTF16}"/>
+                <Button Name="btn_TagToTheName" Height="20" Content="{DynamicResource btn_TagToTheName}" Command="{Binding cmd_TagToTheName}"/>
             </StackPanel>
         </StackPanel>
     </GroupBox>

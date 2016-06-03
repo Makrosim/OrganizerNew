@@ -151,6 +151,7 @@ namespace OrganizerRefactored
 
         public bool SaveComposition(Composition comp)
         {
+            bool isSaved = true;
             var Audiofile = TagLib.File.Create(comp.Path);
             Audiofile.Tag.Performers = comp.Performers.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
             Audiofile.Tag.Title = comp.Title;
@@ -161,7 +162,7 @@ namespace OrganizerRefactored
             Audiofile.Save();
             comp.UpperLine = String.Join(", ", Audiofile.Tag.Performers) + " - " + Audiofile.Tag.Title;
             comp.OnPropertyChanged("Lb_Title");
-            return true;
+            return isSaved;
         }
 
     }

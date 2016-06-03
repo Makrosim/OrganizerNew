@@ -75,12 +75,16 @@
     <Compile Include="Classes\ActionCommand.cs" />
     <Compile Include="Classes\Composition.cs" />
     <Compile Include="Classes\IOVK.cs" />
+    <Compile Include="Components\AuthForm.xaml.cs">
+      <DependentUpon>AuthForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\Diagram.xaml.cs">
       <DependentUpon>Diagram.xaml</DependentUpon>
     </Compile>
     <Compile Include="Components\ImageViewer.xaml.cs">
       <DependentUpon>ImageViewer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\IAutohorize.cs" />
     <Compile Include="Interfaces\IMainWindow.cs" />
     <Compile Include="Interfaces\IPlaylist.cs" />
     <Compile Include="Interfaces\IIO.cs" />
@@ -88,6 +92,10 @@
     <Compile Include="Components\TagEditor.xaml.cs">
       <DependentUpon>TagEditor.xaml</DependentUpon>
     </Compile>
+    <Page Include="Components\AuthForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Components\Diagram.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
