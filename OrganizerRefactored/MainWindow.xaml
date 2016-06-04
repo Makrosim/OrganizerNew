@@ -27,9 +27,9 @@
         </StackPanel>
 
         <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal">
-            <Button Name="btn_Change" Content="{DynamicResource btn_Change}" Command="{Binding cmd_Change}"/>
-            <RadioButton Name="rbtn_EditVK" Content="{DynamicResource btn_EditVK}" Checked="btn_EditVK_Checked"/>
-            <RadioButton Name="rbtn_EditLocal" Content="{DynamicResource btn_EditLocal}" Checked="btn_EditLocal_Checked"/>
+            <Button Name="btn_Change" Content="{DynamicResource btn_Change}" VerticalAlignment="Center" Command="{Binding cmd_Change}"/>
+            <RadioButton Name="rbtn_EditVK" Content="{DynamicResource btn_EditVK}" Margin="10, 0, 10, 0" VerticalAlignment="Center" Checked="btn_EditVK_Checked"/>
+            <RadioButton Name="rbtn_EditLocal" Content="{DynamicResource btn_EditLocal}" VerticalAlignment="Center" Checked="btn_EditLocal_Checked"/>
         </StackPanel>
 
     </Grid>
