@@ -79,7 +79,7 @@ namespace OrganizerRefactored
             var DrawInfo = CalculateRatio();
 
             var rect = new Rectangle();
-            rect.Height = 268;
+            rect.Height = 264;
             rect.Width = 313;
             rect.Opacity = 1;
             rect.Fill = Brushes.White;
@@ -210,7 +210,7 @@ namespace OrganizerRefactored
 
         private void ExportToPng(Uri path, Canvas canvas)
         {                        
-            Size size = new Size(canvas.ActualWidth, 280);// Get the size of canvas                                       
+            Size size = new Size(canvas.ActualWidth, canvas.ActualHeight);// Get the size of canvas                                       
 
             RenderTargetBitmap renderBitmap =
               new RenderTargetBitmap(
