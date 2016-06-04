@@ -1,18 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
-using System.IO;
 using System.Net;
 
 namespace OrganizerRefactored
@@ -27,6 +18,7 @@ namespace OrganizerRefactored
         public ActionCommand cmd_Stop { get; set; }
         public ActionCommand cmd_Pause { get; set; }
         private IPlaylist IPlaylist;
+        Composition comp;
 
         public Player(IPlaylist IPlaylist)
         {
@@ -40,38 +32,41 @@ namespace OrganizerRefactored
 
         public void Play()
         {
-            string path = IPlaylist.GetSelectedCompositions().First().Path;
-            string fileResult;
-            Uri uri = new Uri(path, UriKind.Absolute);
-            if (me_Player.Source == null)
-                if(path.StartsWith("http"))
+            if (!paused)
+            {
+                comp = IPlaylist.GetSelectedCompositions().First();
+                var path = comp.Path;
+                Uri uri = new Uri(path, UriKind.Absolute);
+
+                if (path.StartsWith("http"))
                 {
-                    fileResult = System.IO.Path.Combine(Environment.CurrentDirectory, "tmpplay.mp3");
-                    WebClient wc = new WebClient();
-                    wc.DownloadFileAsync(uri, fileResult);
-                    me_Player.Source = new Uri(fileResult, UriKind.Absolute);
+                    path = System.IO.Path.Combine(Environment.CurrentDirectory, "tmpplay.mp3");
+                    var wc = new WebClient();
+                    wc.DownloadFileAsync(uri, path);
+                    me_Player.Source = new Uri(path, UriKind.Absolute);
                 }
                 else
-                    me_Player.Source = new Uri(path, UriKind.Absolute);
-            if (!paused)
-                me_Player.Play();
+                    me_Player.Source = uri;
+            }
+            me_Player.Play();
             paused = false;
         }
 
         public void Stop()
         {
             me_Player.Stop();
+            paused = false;
         }
 
         public void Pause()
         {
-            paused = true;
             me_Player.Pause();
+            paused = true;
         }
 
         void timer_Tick(object sender, EventArgs e)
         {
-            tbl_TimeInfo.Text = me_Player.Position.ToString("mm\\:ss") + "/" + me_Player.NaturalDuration.TimeSpan.ToString("mm\\:ss");
+            tbl_TimeInfo.Text = me_Player.Position.ToString("mm\\:ss") + "/" + comp.Duration.ToString();
             sld_TimeLine.Value = me_Player.Position.TotalSeconds;
         }
 

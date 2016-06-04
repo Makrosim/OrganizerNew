@@ -18,8 +18,6 @@ namespace OrganizerRefactored
     public partial class MainWindow : Window, IMainWindow
     {
         ulong appId = 5482105;
-        string login = "+380952591396";
-        string password = "123456qAz32q";
 
         public event EventHandler WindowLoaded;
         public event EventHandler WindowClosed;
@@ -88,19 +86,18 @@ namespace OrganizerRefactored
 
         private void SignedIn(object sender, EventArgs e)
         {
-            string[] AuthParams = auth.GetParams();
-            Iovk = new IOVK(appId, AuthParams[0], AuthParams[1]);
-            diag = new Diagram(Iplaylist, Iovk);
-            fr_Diagram.NavigationService.Navigate(diag);
-
             try
             {
+                var AuthParams = auth.GetParams();
+                Iovk = new IOVK(appId, AuthParams[0], AuthParams[1]);
+                diag = new Diagram(Iplaylist, Iovk);
+                fr_Diagram.NavigationService.Navigate(diag);
                 Iplaylist.SwitchToVK(Iovk);
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("AuthError");
-                Iplaylist.SwitchToLocal(Iio);
+                MessageBox.Show("AuthError " + ex.InnerException + ex.Message + ex.Data);
+                rbtn_EditLocal.IsChecked = true;
             }
             fr_Playlist.NavigationService.Navigate(Iplaylist);
         }

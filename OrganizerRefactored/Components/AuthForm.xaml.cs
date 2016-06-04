@@ -30,7 +30,7 @@ namespace OrganizerRefactored
         {
             string[] authparams = new string[2];
             authparams[0] = Login;
-            authparams[1] = Password;
+            authparams[1] = tb_Password.Password;
             return authparams;
         }
 

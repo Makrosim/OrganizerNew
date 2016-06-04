@@ -38,7 +38,7 @@ namespace OrganizerRefactored
             DataContext = this;
             cmd_Save = new ActionCommand(SaveTags) { IsExecutable = true };
             cmd_Recognize = new ActionCommand(RecognizeComposition) { IsExecutable = true };
-            cmd_ToUTF16 = new ActionCommand(ToUTF16) { IsExecutable = true };
+            cmd_ToUTF16 = new ActionCommand(FixEncoding) { IsExecutable = true };
             cmd_TagToTheName = new ActionCommand(TagToTheName) { IsExecutable = true };
             ICompList = complist;
             ICompList.SelectionChangedEvent += SelectionChanged;
@@ -65,14 +65,6 @@ namespace OrganizerRefactored
                     btn_TagToTheName.IsEnabled = false;
                     tbx_ID.IsEnabled = false;
                     tbx_Year.IsEnabled = false;
-                }
-                else
-                {
-                    btn_Recognize.IsEnabled = true;
-                    btn_FixEncoding.IsEnabled = true;
-                    btn_TagToTheName.IsEnabled = true;
-                    tbx_ID.IsEnabled = true;
-                    tbx_Year.IsEnabled = true;
                 }
             }
 
@@ -161,7 +153,7 @@ namespace OrganizerRefactored
             Saved = true;
         }
 
-        private void ToUTF16()
+        private void FixEncoding()
         {
             TagEdited();
             if (!IsMultiselect)

@@ -16,7 +16,7 @@
                 <Button Name="btn_Share" Content="{DynamicResource btn_Share}" Command="{Binding cmd_Share}" HorizontalAlignment="Right" Margin="3"/>
             </DockPanel>
             <StackPanel>
-                <Canvas Name = "cnvs_Diagram" Height="264"/>
+                <Canvas Name = "cnvs_Diagram" Height="264" Background="White"/>
             </StackPanel>
 
         </StackPanel>

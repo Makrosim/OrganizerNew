@@ -15,27 +15,11 @@ using System.Windows.Shapes;
 
 namespace OrganizerRefactored
 {
-    class Comparer : IComparer<KeyValuePair<string, long>>
-    {
-        public int Compare(KeyValuePair<string, long> one, KeyValuePair<string, long> two)
-        {
-            if (one.Value == two.Value)
-                return 0;
-
-            if (one.Value < two.Value)
-                return -1;
-            else
-                return 1;
-        }
-    }
-
     public partial class Diagram : Page
     {
         public ActionCommand cmd_Share { get; set; }
-        List<Composition> CompList;
         IPlaylist Iplaylist;
         IIO IoVk;
-        Dictionary<string, long> genres;
         int CompAmount;
         float x = 160;
         float y = 160 - 20;
@@ -50,6 +34,20 @@ namespace OrganizerRefactored
             IoVk = Iovk;
             Iplaylist.CollectionFilled += DrawDiagram;
             CompAmount = Iplaylist.GetAllCompositions().Count();
+        }
+
+        class Comparer : IComparer<KeyValuePair<string, long>>
+        {
+            public int Compare(KeyValuePair<string, long> one, KeyValuePair<string, long> two)
+            {
+                if (one.Value == two.Value)
+                    return 0;
+
+                if (one.Value < two.Value)
+                    return -1;
+                else
+                    return 1;
+            }
         }
 
         public struct DrawInfo
@@ -77,46 +75,54 @@ namespace OrganizerRefactored
         private void DrawDiagram(object sender, EventArgs e)
         {
             var DrawInfo = CalculateRatio();
+            PlaceOuterPentagon();
+            PlaceInnerPentagon(DrawInfo);
+            PlaceLines(DrawInfo);
+            PlaceLabels(DrawInfo);
+        }
 
-            var rect = new Rectangle();
-            rect.Height = 264;
-            rect.Width = 313;
-            rect.Opacity = 1;
-            rect.Fill = Brushes.White;
-            cnvs_Diagram.Children.Add(rect);
-
+        private void PlaceOuterPentagon()
+        {
             var OuterRectVer = GetVertices(radius, x, y);
-            var LabelVer = GetVertices(radius + 10, x, y);
-
-            for (int i = 0; i < 5; i++)
-            {
-                var GenreText = new TextBlock();
-                GenreText.Text = DrawInfo[i].Genre;
-                GenreText.Padding = new Thickness(0);
-                GenreText.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-                Canvas.SetLeft(GenreText, LabelVer[i].x - GenreText.DesiredSize.Width / 2);
-                Canvas.SetTop(GenreText, LabelVer[i].y - GenreText.DesiredSize.Height / 2);
-                cnvs_Diagram.Children.Add(GenreText);
-            }
-
             var OuterPentagon = new Polygon();
-            OuterPentagon.Fill = System.Windows.Media.Brushes.BurlyWood;
+            var myPointCollection = new PointCollection();
+
+            OuterPentagon.Fill = Brushes.BurlyWood;
             OuterPentagon.Opacity = 0.2;
-            PointCollection myPointCollection = new PointCollection();
+
 
             foreach (var ver in OuterRectVer)
-            {
-                myPointCollection.Add(new System.Windows.Point(ver.x, ver.y));
-
-            }
+                myPointCollection.Add(new Point(ver.x, ver.y));
 
             OuterPentagon.Points = myPointCollection;
             cnvs_Diagram.Children.Add(OuterPentagon);
+        }
 
-            foreach (var ver in OuterRectVer)
+        private void PlaceInnerPentagon(List<DrawInfo> info)
+        {
+            var InnerRectVer = GetVertices(radius, x, y, info);
+            var InnerPentagon = new Polygon();
+            var InnerPointColletion = new PointCollection();
+
+            InnerPentagon.Stroke = Brushes.Gold;
+            InnerPentagon.StrokeThickness = 2;
+            InnerPentagon.Opacity = 0.5;
+            InnerPentagon.Fill = Brushes.Goldenrod;
+
+            foreach (var ver in InnerRectVer)
+                InnerPointColletion.Add(new Point(ver.x, ver.y));
+
+            InnerPentagon.Points = InnerPointColletion;
+            cnvs_Diagram.Children.Add(InnerPentagon);
+        }
+
+        private void PlaceLines(List<DrawInfo> info)
+        {
+            var LinesVer = GetVertices(radius, x, y);
+            foreach (var ver in LinesVer)
             {
                 var myLine = new Line();
-                myLine.Stroke = System.Windows.Media.Brushes.Black;
+                myLine.Stroke = Brushes.Black;
                 myLine.Opacity = 0.5;
                 myLine.X1 = x;
                 myLine.X2 = ver.x;
@@ -127,31 +133,28 @@ namespace OrganizerRefactored
                 myLine.StrokeThickness = 2;
                 cnvs_Diagram.Children.Add(myLine);
             }
+        }
 
-            var InnerRectVer = GetVertices(radius, x, y, DrawInfo);
+        private void PlaceLabels(List<DrawInfo> info)
+        {
+            var LabelVer = GetVertices(radius + 10, x, y);
 
-            var InnerPentagon = new Polygon();
-            Brush str = Brushes.Gold;
-            InnerPentagon.Stroke = str;
-            InnerPentagon.StrokeThickness = 2;
-            InnerPentagon.Opacity = 0.5;
-            LinearGradientBrush pent = new LinearGradientBrush();
-            InnerPentagon.Fill = Brushes.Goldenrod;
-            PointCollection InnerPointColletion = new PointCollection();
-
-            foreach (var ver in InnerRectVer)
+            for (int i = 0; i < 5; i++)
             {
-                InnerPointColletion.Add(new System.Windows.Point(ver.x, ver.y));
+                var GenreText = new TextBlock();
+                GenreText.Text = info[i].Genre;
+                GenreText.Padding = new Thickness(0);
+                GenreText.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                Canvas.SetLeft(GenreText, LabelVer[i].x - GenreText.DesiredSize.Width / 2);
+                Canvas.SetTop(GenreText, LabelVer[i].y - GenreText.DesiredSize.Height / 2);
+                cnvs_Diagram.Children.Add(GenreText);
             }
-
-            InnerPentagon.Points = InnerPointColletion;
-            cnvs_Diagram.Children.Add(InnerPentagon);
         }
 
         private List<DrawInfo> CalculateRatio()
         {
-            CompList = this.Iplaylist.GetAllCompositions();
-            genres = new Dictionary<string, long>();
+            var CompList = this.Iplaylist.GetAllCompositions();
+            var genres = new Dictionary<string, long>();
 
             foreach (var comp in CompList)
             {
@@ -180,7 +183,7 @@ namespace OrganizerRefactored
 
         private List<Vector2> GetVertices(float R, float x0, float y0)
         {
-            List<Vector2> v = new List<Vector2>();
+            var v = new List<Vector2>();
             for (int i = 0; i < 5; i++)
                 v.Add(new Vector2(x0 - R * Math.Sin(2 * Math.PI * i / 5), y0 - R * (float)Math.Cos(2 * Math.PI * i / 5)));
             return v;
@@ -188,7 +191,7 @@ namespace OrganizerRefactored
 
         private List<Vector2> GetVertices(float R, float x0, float y0, List<DrawInfo> ratio)
         {
-            List<Vector2> v = new List<Vector2>();
+            var v = new List<Vector2>();
             for (int i = 0; i < 5; i++)
                 v.Add(new Vector2(x0 - R * Math.Sin(2 * Math.PI * i / 5) * ratio[i].Ratio, y0 - R * (float)Math.Cos(2 * Math.PI * i / 5) * ratio[i].Ratio));
             return v;
@@ -202,7 +205,7 @@ namespace OrganizerRefactored
 
         public void Share()
         {
-            string fileResult = System.IO.Path.Combine(Environment.CurrentDirectory, "tmp.jpg");
+            var fileResult = System.IO.Path.Combine(Environment.CurrentDirectory, "tmp.jpg");
             var path = new Uri(fileResult, UriKind.Absolute);
             ExportToPng(path, cnvs_Diagram);
             IoVk.SharePicture(fileResult);
@@ -210,25 +213,17 @@ namespace OrganizerRefactored
 
         private void ExportToPng(Uri path, Canvas canvas)
         {                        
-            Size size = new Size(canvas.ActualWidth, canvas.ActualHeight);// Get the size of canvas                                       
-
-            RenderTargetBitmap renderBitmap =
-              new RenderTargetBitmap(
-                (int)size.Width,
-                (int)size.Height,
-                96d,
-                96d,
-                PixelFormats.Pbgra32);// Create a render bitmap and push the surface to it
+            var size = new Size(canvas.ActualWidth, canvas.ActualHeight);                                    
+            var renderBitmap = new RenderTargetBitmap((int)size.Width, (int)size.Height, 96d, 96d, PixelFormats.Pbgra32);
 
             renderBitmap.Render(canvas);
      
-            using (FileStream outStream = new FileStream(path.LocalPath, FileMode.Create))// Create a file stream for saving image
+            using (var outStream = new FileStream(path.LocalPath, FileMode.Create))
             {               
-                var encoder = new JpegBitmapEncoder();// Use png encoder for our data               
-                encoder.Frames.Add(BitmapFrame.Create(renderBitmap));// push the rendered bitmap to it              
-                encoder.Save(outStream); // save the data to the stream
-            }             
-                     
+                var encoder = new JpegBitmapEncoder();         
+                encoder.Frames.Add(BitmapFrame.Create(renderBitmap));             
+                encoder.Save(outStream);
+            }                                 
         }
 
     }

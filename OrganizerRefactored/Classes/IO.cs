@@ -125,7 +125,8 @@ namespace OrganizerRefactored
                         comp.Album = Audiofile.Tag.Album;
                         comp.Genre = String.Join(", ", Audiofile.Tag.Genres);
                         comp.Year = Audiofile.Tag.Year.ToString();
-                        comp.LowerLine = Audiofile.Properties.AudioBitrate.ToString() + "kbps  " + Convert.ToString(Audiofile.Length / 1048576);
+                        var file = new FileInfo(path);
+                        comp.LowerLine = Audiofile.Properties.AudioBitrate.ToString() + "kbps  " + Convert.ToString(file.Length / 1048576) + "." + Convert.ToString((file.Length / 1048576) % 1024) + " Mb";
                         comp.Duration = Audiofile.Properties.Duration.ToString("mm\\:ss");
                         comp.TagType = Audiofile.Tag.TagTypes.ToString();
 

@@ -96,7 +96,7 @@
             </StackPanel>
             <StackPanel>
                 <TextBlock Text="{DynamicResource tb_Genre}"/>
-                <TextBox Name ="tbx_Genre" Text="{Binding Composition.Genre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}"  IsEnabled="{Binding ElementName=chb_Genres, Path=IsChecked}" KeyDown="TagManuallyEdited"/>
+                <TextBox Name ="tbx_Genre" Text="{Binding Composition.Genre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}"  IsEnabled="{Binding ElementName=chb_Genre, Path=IsChecked}" KeyDown="TagManuallyEdited"/>
                 <CheckBox Name="chb_Genre"/>
             </StackPanel>
             <StackPanel>
