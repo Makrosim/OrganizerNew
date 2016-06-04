@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -30,18 +31,23 @@ namespace OrganizerRefactored
 
     public partial class Diagram : Page
     {
+        public ActionCommand cmd_Share { get; set; }
         List<Composition> CompList;
         IPlaylist Iplaylist;
+        IIO IoVk;
         Dictionary<string, long> genres;
         int CompAmount;
         float x = 160;
         float y = 160 - 20;
         float radius = 120;
 
-        public Diagram(IPlaylist Iplay)
+        public Diagram(IPlaylist Iplay, IIO Iovk)
         {
             InitializeComponent();
+            DataContext = this;
+            cmd_Share = new ActionCommand(Share) { IsExecutable = true };
             Iplaylist = Iplay;
+            IoVk = Iovk;
             Iplaylist.CollectionFilled += DrawDiagram;
             CompAmount = Iplaylist.GetAllCompositions().Count();
         }
@@ -70,31 +76,14 @@ namespace OrganizerRefactored
 
         private void DrawDiagram(object sender, EventArgs e)
         {
-            CompList = this.Iplaylist.GetAllCompositions();
-            genres = new Dictionary<string, long>();
+            var DrawInfo = CalculateRatio();
 
-            foreach (var comp in CompList)
-            {
-                if(genres.ContainsKey(comp.Genre))
-                {
-                    long count;
-                    genres.TryGetValue(comp.Genre, out count);
-                    count++;
-                    genres.Remove(comp.Genre);
-                    genres.Add(comp.Genre, count);
-                }
-                else
-                if(!((chb_AllowOther.IsChecked == false)&&(comp.Genre.Equals("Other"))) && !comp.Genre.Equals(""))
-                    genres.Add(comp.Genre, 1);
-            }
-
-            var sorted = genres.OrderByDescending(el => el, new Comparer());
-            var DrawInfo = new List<DrawInfo>();
-
-            foreach (var el in sorted)
-                DrawInfo.Add(new DrawInfo(el.Key, el.Value * 100 / sorted.First().Value));
-
-            DrawInfo.RemoveRange(5, DrawInfo.Count() - 5);
+            var rect = new Rectangle();
+            rect.Height = 268;
+            rect.Width = 313;
+            rect.Opacity = 1;
+            rect.Fill = Brushes.White;
+            cnvs_Diagram.Children.Add(rect);
 
             var OuterRectVer = GetVertices(radius, x, y);
             var LabelVer = GetVertices(radius + 10, x, y);
@@ -129,9 +118,9 @@ namespace OrganizerRefactored
                 var myLine = new Line();
                 myLine.Stroke = System.Windows.Media.Brushes.Black;
                 myLine.Opacity = 0.5;
-                myLine.X1 = 160;
+                myLine.X1 = x;
                 myLine.X2 = ver.x;
-                myLine.Y1 = 160;
+                myLine.Y1 = y;
                 myLine.Y2 = ver.y;
                 myLine.HorizontalAlignment = HorizontalAlignment.Left;
                 myLine.VerticalAlignment = VerticalAlignment.Center;
@@ -139,7 +128,7 @@ namespace OrganizerRefactored
                 cnvs_Diagram.Children.Add(myLine);
             }
 
-            var InnerRectVer = GetVertices(120, 160, 160, DrawInfo);
+            var InnerRectVer = GetVertices(radius, x, y, DrawInfo);
 
             var InnerPentagon = new Polygon();
             Brush str = Brushes.Gold;
@@ -159,13 +148,36 @@ namespace OrganizerRefactored
             cnvs_Diagram.Children.Add(InnerPentagon);
         }
 
-        /// <summary>
-        /// ...
-        /// </summary>
-        /// <param name="R">Радиус</param>
-        /// <param name="x0">X центра</param>
-        /// <param name="y0">Y центра</param>
-        /// <returns>Список вершин</returns>
+        private List<DrawInfo> CalculateRatio()
+        {
+            CompList = this.Iplaylist.GetAllCompositions();
+            genres = new Dictionary<string, long>();
+
+            foreach (var comp in CompList)
+            {
+                if (genres.ContainsKey(comp.Genre))
+                {
+                    long count;
+                    genres.TryGetValue(comp.Genre, out count);
+                    count++;
+                    genres.Remove(comp.Genre);
+                    genres.Add(comp.Genre, count);
+                }
+                else
+                if (!((chb_AllowOther.IsChecked == false) && (comp.Genre.Equals("Other"))) && !comp.Genre.Equals(""))
+                    genres.Add(comp.Genre, 1);
+            }
+
+            var sorted = genres.OrderByDescending(el => el, new Comparer());
+            var DrawInfo = new List<DrawInfo>();
+
+            foreach (var el in sorted)
+                DrawInfo.Add(new DrawInfo(el.Key, el.Value * 100 / sorted.First().Value));
+
+            DrawInfo.RemoveRange(5, DrawInfo.Count() - 5);
+            return DrawInfo;
+        }
+
         private List<Vector2> GetVertices(float R, float x0, float y0)
         {
             List<Vector2> v = new List<Vector2>();
@@ -187,5 +199,37 @@ namespace OrganizerRefactored
             cnvs_Diagram.Children.Clear();
             DrawDiagram(this, new EventArgs());
         }
+
+        public void Share()
+        {
+            string fileResult = System.IO.Path.Combine(Environment.CurrentDirectory, "tmp.jpg");
+            var path = new Uri(fileResult, UriKind.Absolute);
+            ExportToPng(path, cnvs_Diagram);
+            IoVk.SharePicture(fileResult);
+        }
+
+        private void ExportToPng(Uri path, Canvas canvas)
+        {                        
+            Size size = new Size(canvas.ActualWidth, 280);// Get the size of canvas                                       
+
+            RenderTargetBitmap renderBitmap =
+              new RenderTargetBitmap(
+                (int)size.Width,
+                (int)size.Height,
+                96d,
+                96d,
+                PixelFormats.Pbgra32);// Create a render bitmap and push the surface to it
+
+            renderBitmap.Render(canvas);
+     
+            using (FileStream outStream = new FileStream(path.LocalPath, FileMode.Create))// Create a file stream for saving image
+            {               
+                var encoder = new JpegBitmapEncoder();// Use png encoder for our data               
+                encoder.Frames.Add(BitmapFrame.Create(renderBitmap));// push the rendered bitmap to it              
+                encoder.Save(outStream); // save the data to the stream
+            }             
+                     
+        }
+
     }
 }

@@ -15,7 +15,7 @@
                 <TextBlock Text="Allow Other" Padding="0" VerticalAlignment="Center"/>
                 <Button Name="btn_Share" Content="{DynamicResource btn_Share}" Command="{Binding cmd_Share}" HorizontalAlignment="Right" Margin="3"/>
             </DockPanel>
-            <Canvas Name = "cnvs_Diagram" Height="268"/>
+            <Canvas Name = "cnvs_Diagram" Height="264" Grid.IsSharedSizeScope="True" UseLayoutRounding="True"/>
         </StackPanel>
     </GroupBox>
 

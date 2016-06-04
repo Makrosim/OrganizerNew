@@ -8,7 +8,9 @@ using VkNet;
 using VkNet.Enums.Filters;
 using VkNet.Model;
 using VkNet.Model.RequestParams;
+using VkNet.Model.Attachments;
 using VkNet.Enums;
+using System.Net;
 
 namespace OrganizerRefactored
 {
@@ -26,6 +28,29 @@ namespace OrganizerRefactored
         public void WritePlaylist(ObservableCollection<Composition> playlist)
         {
 
+        }
+
+        public bool SharePicture(string path)
+        {
+            var uploadServer = vk.Photo.GetWallUploadServer(1);
+
+            var wc = new WebClient();
+            var responseFile = Encoding.ASCII.GetString(wc.UploadFile(uploadServer.UploadUrl, path)); //Загрузить файл.
+
+            var photo = vk.Photo.SaveWallPhoto(responseFile, 174112915, 1); //Сохранить загруженный файл
+            var attachment = new List<MediaAttachment>();
+            var media = new Photo();
+            
+            media.OwnerId = user.Id;
+            media.Id = photo.First().Id;
+            attachment.Add(media);
+
+            vk.Wall.Post(new WallPostParams
+            {
+                Message = "Тест диплома",
+                Attachments = attachment
+            });
+            return true;
         }
 
         public ObservableCollection<Composition> ReadPlaylist(ObservableCollection<Composition> playlist)

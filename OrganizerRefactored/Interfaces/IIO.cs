@@ -13,5 +13,6 @@ namespace OrganizerRefactored
         ObservableCollection<Composition> ReadPlaylist(ObservableCollection<Composition> playlist);
         void WritePlaylist(ObservableCollection<Composition> playlist);
         bool SaveComposition(Composition comp);
+        bool SharePicture(string path);
     }
 }

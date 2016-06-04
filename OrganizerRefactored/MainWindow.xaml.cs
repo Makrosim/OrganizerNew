@@ -29,6 +29,7 @@ namespace OrganizerRefactored
         TagEditor editor;
         IPlaylist Iplaylist;
         IIO Iio;
+        IIO Iovk;
         ImageViewer img;
         Diagram diag;
         IAutohorize auth;
@@ -88,18 +89,20 @@ namespace OrganizerRefactored
         private void SignedIn(object sender, EventArgs e)
         {
             string[] AuthParams = auth.GetParams();
-            MessageBox.Show(AuthParams[0] + "\n" + AuthParams[1]);
+            Iovk = new IOVK(appId, AuthParams[0], AuthParams[1]);
+            diag = new Diagram(Iplaylist, Iovk);
+            fr_Diagram.NavigationService.Navigate(diag);
+
             try
             {
-                Iplaylist.SwitchToVK(new IOVK(appId, AuthParams[0], AuthParams[1]));
+                Iplaylist.SwitchToVK(Iovk);
             }
             catch
             {
                 MessageBox.Show("AuthError");
+                Iplaylist.SwitchToLocal(Iio);
             }
             fr_Playlist.NavigationService.Navigate(Iplaylist);
-            diag = new Diagram(Iplaylist);
-            fr_Diagram.NavigationService.Navigate(diag);
         }
 
         private void btn_EditLocal_Checked(object sender, RoutedEventArgs e)

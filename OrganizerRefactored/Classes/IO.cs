@@ -26,6 +26,11 @@ namespace OrganizerRefactored
             }
         }
 
+        public bool SharePicture(string path)
+        {
+            return false;
+        }
+
         public ObservableCollection<Composition> ReadPlaylist(ObservableCollection<Composition> playlist)
         {
             var opened = new List<string>();
